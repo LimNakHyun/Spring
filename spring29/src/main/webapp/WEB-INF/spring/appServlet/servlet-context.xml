@@ -13,7 +13,8 @@
 	<annotation-driven />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
-	<resources mapping="/resources/**" location="/resources/" />
+	<!-- <resources mapping="/resources/**" location="/resources/" /> -->
+	<resources mapping="/**" location="/resources/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -30,21 +31,16 @@
 		<beans:property name="password" value="1234" />
 	</beans:bean>
 	
-	<beans:bean name="template" class="org.springframework.jdbc.core.JdbcTemplate">
-		<beans:property name="dataSource" ref="dataSource"/>
-	</beans:bean>
-	
-	<beans:bean name="dao" class="com.javalec.spring_mybatis.dao.ContentDao">
-		<beans:property name="template" ref="template"></beans:property>
-	</beans:bean>
 	
 	<beans:bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<beans:property name="dataSource" ref="dataSource"></beans:property>
-		<beans:property name="mapperLocations" value="classpath:com/javalec/spring_mybatis/dao/mapper/*.xml"></beans:property>
+		<beans:property name="dataSource" ref="dataSource"/>
+		<beans:property name="configLocation" value="classpath:/config/mybatis-config.xml"/>
+		<beans:property name="mapperLocations" value="classpath:com/javalec/spring_mybatis/dao/mapper/*.xml"/>
 	</beans:bean>
 	
-	<beans:bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<beans:constructor-arg index="0" ref="sqlSessionFactory"></beans:constructor-arg>
+	<beans:bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<beans:property name="basePackage" value="com.javalec.spring_mybatis.dao" />
+		<beans:property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
 	</beans:bean>
 	
 </beans:beans>

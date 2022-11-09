@@ -1,85 +1,49 @@
 package com.javalec.spring_mybatis.dao;
 
-//import java.sql.Connection;
-//import java.sql.PreparedStatement;
-//import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-//import org.springframework.jdbc.core.PreparedStatementCreator;
-//import org.springframework.jdbc.core.PreparedStatementSetter;
+import org.springframework.stereotype.Service;
 
 import com.javalec.spring_mybatis.dto.ContentDto;
 
-public class ContentDao implements IDao{
 
-	JdbcTemplate template;
+@Service("contentDao")
+public class ContentDao {
 	
 	@Autowired
-	public void setTemplate(JdbcTemplate template) {
-		this.template = template;
-	}
+	private IDao idao;
 	
-	public ContentDao() {
-		// TODO Auto-generated constructor stub
-	}
-	
-	@Override
 	public ArrayList<ContentDto> listDao() {
-//		String query = "select * from board2 order by mId desc";
-//		ArrayList<ContentDto> dtos = (ArrayList<ContentDto>) template.query(query, new BeanPropertyRowMapper<ContentDto>(ContentDto.class));
-//		return dtos;
-		return null;
+		return idao.listDao();
 	}
 	
+	public void writeDao(final String usrname, final String pwd, final String subject, final String content) { 
+		idao.writeDao(usrname, pwd, subject, content);
+	}
 	
-	@Override
-	public void writeDao(final String board_name, final String board_pass, final String board_subject, final String board_content) {
-//		System.out.println("writeDao()");
-//		
-//		this.template.update(new PreparedStatementCreator() {
-//			
-//			@Override
-//			public PreparedStatement createPreparedStatement(Connection con)
-//					throws SQLException {
-//				String query = "insert into board2 (mWriter, mContent) values (?, ?)";
-//				PreparedStatement pstmt = con.prepareStatement(query);
-//				pstmt.setString(1, mWriter);
-//				pstmt.setString(2, mContent);
-//				return pstmt;
-//			}
-//		});
-//		return null;
-		
+	public ContentDto viewDao(final int num) {
+		return idao.viewDao(num);
+	}
+	
+	public void deleteDao(final String num) { 
+		idao.deleteDao(num);
 	}
 
+	public void cntDao(int num) { 
+		idao.cntDao(num);
+	}
 	
-	@Override
-	public ContentDto viewDao(String strID) {
-//		System.out.println("viewDao()");
-//		
-//		String query = "select * from board2 where mId = " + strID;
-//		return template.queryForObject(query, new BeanPropertyRowMapper<ContentDto>(ContentDto.class));
-		return null;
+	public ArrayList<ContentDto> searchDao(String search) {
+		return idao.searchDao(search);
 	}
 
-	
-	@Override
-	public void deleteDao(final String bId) {
-//		System.out.println("deleteDao()");
-//		
-//		String query = "delete from board2 where mId = ?";
-//		this.template.update(query, new PreparedStatementSetter() {
-//			
-//			@Override
-//			public void setValues(PreparedStatement ps) throws SQLException {
-//				ps.setInt(1, Integer.parseInt(bId));
-//			}
-//		});
-//		return null;
-		
+	public void updateDao(String subject, String content, String num) {
+		idao.updateDao(subject, content, num);
+	}
+
+	public ContentDto confirmPwd(int num, String confirmPwd) {
+		return idao.confirmPwd(num, confirmPwd);
 	}
 
 }

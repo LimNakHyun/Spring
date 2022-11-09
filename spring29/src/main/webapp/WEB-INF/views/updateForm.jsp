@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 작성</title>
+<title>게시글 수정하기</title>
 
 
 <!-- 합쳐지고 최소화된 최신 CSS -->
@@ -20,41 +22,46 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <style>
-	textarea {
-		resize: none;
-	}
+textarea {
+	resize: none;
+}
 </style>
 
 </head>
 <body>
 
-<h3>게시글 작성하기</h3>
+<h3>게시글 수정하기</h3>
 
-<form action="write" method="post">
-	<table class="table table-bordered">
-	
+<form action="update">
+	<table class="table table-bordered">	
 		<tr>
-			<td><label> 작성자 </label></td>
-			<td><input type="text" name="usrname" required="required"/></td>
+			<td>글 번호</td>
+			<td><input id="num" type="hidden" name="num" value="${viewlist.num}"/>${viewlist.num}</td>
 		</tr>
 		<tr>
-			<td><label> 비밀번호 </label></td>
-			<td><input type="password" name="pwd" required="required"/></td>
+			<td>작성자</td>
+			<td>${viewlist.usrname}</td>
 		</tr>
 		<tr>
-			<td><label> 제목 </label></td>
-			<td><input type="text" name="subject" required="required"/></td>
+			<td>제목</td>
+			<td><input id="subject" type="text" name="subject" value="${viewlist.subject}" required="required"/></td>
 		</tr>
 		<tr>
-			<td><label> 내용 </label></td>
-			<td><textarea type="text" name="content" cols="40" rows="15" required="required"></textarea></td>
+			<td>내용</td>
+			<td><textarea id="content" cols="40" rows="15" name="content">${viewlist.content}</textarea></td>
 		</tr>
+		
 	</table>
 	
-	<!-- <button onclick="location.href='list'">글 목록</button> &nbsp;&nbsp; -->
+	&nbsp;&nbsp;<button type="button" onclick="location.href='javascript:history.go(-1)'">이전</button>
 	&nbsp;&nbsp;<a href="list">목록보기</a>
-	&nbsp;&nbsp;<input type="submit" value="입력">
+	&nbsp;&nbsp;<input type="reset" value="리셋">
+	&nbsp;&nbsp;<input type="submit" value="수정하기">
 	
 </form>
+
+<!-- <iframe name="updform" width="40%" height="300"></iframe> -->
+
+
 </body>
 </html>
