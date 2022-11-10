@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javalec.spring_mybatis.dto.ContentDto;
+import com.javalec.spring_mybatis.vo.PagingVO;
 
 
 @Service("contentDao")
@@ -16,6 +17,10 @@ public class ContentDao {
 	
 	public ArrayList<ContentDto> listDao() {
 		return idao.listDao();
+	}
+	
+	public ArrayList<ContentDto> pagingListDao(PagingVO vo) {
+		return idao.pagingListDao(vo);
 	}
 	
 	public void writeDao(final String usrname, final String pwd, final String subject, final String content) { 

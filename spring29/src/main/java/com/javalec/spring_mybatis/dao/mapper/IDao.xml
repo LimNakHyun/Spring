@@ -7,12 +7,31 @@
 	
 	
 	<!-- 받아오는 값이 있었기 때문에 resultType이 존재함 -->
+	<!-- 게시글 불러오는 쿼리 -->
 	<select id="listDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select * from boardtest3
 		where delyn = 'false'
 		order by num
 	</select>
 	
+	
+	<select id="pagingListDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		select *
+			from (
+				select (row_number() over()) as numbering, t.*
+					from (
+									select *
+									from boardtest3
+									where delyn = false
+									order by num
+									) t
+					) s
+		limit 10
+		offset (2 - 1) * 10;
+	</select>
+	
+	
+	<!-- 검색을 하여 게시글을 불러오는 쿼리 -->
 	<select id="searchDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select * from boardtest3
 		where delyn = 'false'
