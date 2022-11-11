@@ -8,14 +8,14 @@
 	
 	<!-- 받아오는 값이 있었기 때문에 resultType이 존재함 -->
 	<!-- 게시글 불러오는 쿼리 -->
-	<select id="listDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+	<!-- <select id="listDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select * from boardtest3
 		where delyn = 'false'
 		order by num
-	</select>
+	</select> -->
 	
-	
-	<select id="pagingListDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+	<!-- 페이징 처리를 하여 게시글을 불러오는 쿼리 -->
+	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select *
 			from (
 				select (row_number() over()) as numbering, t.*
@@ -26,19 +26,40 @@
 									order by num
 									) t
 					) s
-		limit 10
-		offset (2 - 1) * 10;
+		limit #{cntPerPage}
+		offset (#{nowPage} - 1) * #{cntPerPage};
 	</select>
 	
+	<select id="pagingListDaoSearch" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		select *
+			from (
+				select (row_number() over()) as numbering, t.*
+					from (
+									select *
+									from boardtest3
+									where delyn = false
+									and (subject ilike '%' || #{search} || '%'
+									or content ilike '%' || #{search} || '%')
+									order by num
+									) t
+					) s
+		limit #{cntPerPage}
+		offset (#{nowPage} - 1) * #{cntPerPage};
+	</select>
+	
+	<!-- 총 게시글 갯수를 출력하는 쿼리 -->
+	<select id="countBoard" resultType="int">
+		select count(*) from boardtest3
+	</select>
 	
 	<!-- 검색을 하여 게시글을 불러오는 쿼리 -->
-	<select id="searchDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+	<!-- <select id="searchDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select * from boardtest3
 		where delyn = 'false'
 		and (subject ilike '%' || #{search} || '%'
 		or content ilike '%' || #{search} || '%')
 		order by num
-	</select>
+	</select> -->
 	
 	<!-- 받아오는 값이 없었기 때문에 resultType이 존재하지 않음 -->
 	<!-- #을 붙이면 들어오는 값을 반환 타입에 맞게 조정해 준다. -->

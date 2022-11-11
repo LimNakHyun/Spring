@@ -1,5 +1,8 @@
 package com.javalec.spring_mybatis.vo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class PagingVO {
 
 	private int nowPage;		//현재 페이지
@@ -8,9 +11,10 @@ public class PagingVO {
 	private int total;			//게시글 총 개수
 	private int cntPerPage;		//페이지당 글 개수
 	private int lastPage;		//마지막 페이지
-	private int start;			//SQL 쿼리에 쓸 start
-	private int end;			//SQL 쿼리에 쓸 end
+//	private int start;			//SQL 쿼리에 쓸 start
+//	private int end;			//SQL 쿼리에 쓸 end
 	private int cntPage = 5;	//보여줄 최대 페이지의 개수
+	private String search;
 	
 	public PagingVO() {
 		
@@ -22,7 +26,7 @@ public class PagingVO {
 		setCntPerPage(cntPerPage);
 		calcLastPage(getTotal(), getCntPerPage());
 		calcStartEndPage(getNowPage(), cntPage);
-		calcStartEnd(getNowPage(), getCntPerPage());
+//		calcStartEnd(getNowPage(), getCntPerPage());
 	}
 	
 	//제일 마지막 페이지 계산
@@ -42,11 +46,11 @@ public class PagingVO {
 		}
 	}
 	
-	//DB 쿼리에서 사용할 start, end 값 계산
-	public void calcStartEnd(int nowPage, int cntPerPage) {
-		setEnd(nowPage * cntPerPage);
-		setStart(getEnd() - cntPerPage + 1);
-	}
+//	//DB 쿼리에서 사용할 start, end 값 계산
+//	public void calcStartEnd(int nowPage, int cntPerPage) {
+//		setEnd(nowPage * cntPerPage);
+//		setStart(getEnd() - cntPerPage + 1);
+//	}
 
 	public int getNowPage() {
 		return nowPage;
@@ -96,21 +100,21 @@ public class PagingVO {
 		this.lastPage = lastPage;
 	}
 
-	public int getStart() {
-		return start;
-	}
-
-	public void setStart(int start) {
-		this.start = start;
-	}
-
-	public int getEnd() {
-		return end;
-	}
-
-	public void setEnd(int end) {
-		this.end = end;
-	}
+//	public int getStart() {
+//		return start;
+//	}
+//
+//	public void setStart(int start) {
+//		this.start = start;
+//	}
+//
+//	public int getEnd() {
+//		return end;
+//	}
+//
+//	public void setEnd(int end) {
+//		this.end = end;
+//	}
 
 	public int getCntPage() {
 		return cntPage;
@@ -118,6 +122,14 @@ public class PagingVO {
 
 	public void setCntPage(int cntPage) {
 		this.cntPage = cntPage;
+	}
+
+	public String getSearch() {
+		return search;
+	}
+
+	public void setSearch(String search) {
+		this.search = search;
 	}
 	
 }

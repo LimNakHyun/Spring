@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 
 public class ContentDto {
 
+	private int numbering;
 	private int num;
 	private String usrname;
 	private String pwd;
@@ -70,6 +71,12 @@ public class ContentDto {
 	}
 	public void setDeldate(Timestamp deldate) {
 		this.deldate = deldate;
+	}
+	public int getNumbering() {
+		return numbering;
+	}
+	public void setNumbering(int numbering) {
+		this.numbering = numbering;
 	}
 	
 	

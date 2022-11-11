@@ -15,12 +15,16 @@ public class ContentDao {
 	@Autowired
 	private IDao idao;
 	
-	public ArrayList<ContentDto> listDao() {
-		return idao.listDao();
-	}
+//	public ArrayList<ContentDto> listDao() {
+//		return idao.listDao();
+//	}
 	
 	public ArrayList<ContentDto> pagingListDao(PagingVO vo) {
 		return idao.pagingListDao(vo);
+	}
+	
+	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo, String search) {
+		return idao.pagingListDaoSearch(vo, search);
 	}
 	
 	public void writeDao(final String usrname, final String pwd, final String subject, final String content) { 
@@ -39,9 +43,9 @@ public class ContentDao {
 		idao.cntDao(num);
 	}
 	
-	public ArrayList<ContentDto> searchDao(String search) {
-		return idao.searchDao(search);
-	}
+//	public ArrayList<ContentDto> searchDao(String search) {
+//		return idao.searchDao(search);
+//	}
 
 	public void updateDao(String subject, String content, String num) {
 		idao.updateDao(subject, content, num);
@@ -49,6 +53,10 @@ public class ContentDao {
 
 	public ContentDto confirmPwd(int num, String confirmPwd) {
 		return idao.confirmPwd(num, confirmPwd);
+	}
+	
+	public int countBoard() {
+		return idao.countBoard();
 	}
 
 }

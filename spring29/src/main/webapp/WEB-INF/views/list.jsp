@@ -24,6 +24,12 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 </head>
+<script>
+	function selChange() {
+		var sel = document.getElementById('cntPerPage').value;
+		location.href="pagingList?nowPage=${paging.nowPage}&cntPerPage=" + sel;
+	}
+</script>
 <body>
 
 <h3 align="center">게시글 목록</h3>
@@ -39,9 +45,18 @@
 	</form>
 </section>
 
-<section align="right">
-	<button onclick="location.href='writeForm'">글 작성</button>
-</section><br>
+<div>
+	<select id="cntPerPage" name="sel" onchange="selChange()">
+		<option value="5"
+			<c:if test="${paging.cntPerPage == 5}">selected</c:if>>5줄 보기</option>
+		<option value="10"
+			<c:if test="${paging.cntPerPage == 10}">selected</c:if>>10줄 보기</option>
+		<option value="15"
+			<c:if test="${paging.cntPerPage == 15}">selected</c:if>>15줄 보기</option>
+		<option value="20"
+			<c:if test="${paging.cntPerPage == 20}">selected</c:if>>20줄 보기</option>
+	</select>
+</div>
 
 
 <table class="table table-bordered table-striped">
@@ -56,7 +71,7 @@
 	
 	<c:forEach items="${list}" var="dto" varStatus="status">
 	<tr>
-		<td align="center">${status.count}</td>
+		<td align="center">${dto.numbering}</td>
 		<td align="center">${dto.usrname}</td>
 		<td><a href="view?num=${dto.num}">${dto.subject}</a></td>
 		<td align="center"><fmt:formatDate pattern="YYYY-MM-dd" value="${dto.date}"/></td>
@@ -64,5 +79,30 @@
 	<tr>
 	</c:forEach>
 </table>
+	
+	<section align="right">
+		<button onclick="location.href='writeForm'">글 작성</button>
+	</section>
+	
+	<div style="display: block; text-align: center;">
+		<c:if test="${paging.startPage != 1}">
+			<a href="/pagingList?nowPage=${paging.endPage - 1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
+		</c:if>
+		<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+			<c:choose>
+				<c:when test="${p == paging.nowPage}">
+					<b>${p}</b>
+				</c:when>
+				<c:when test="${p != paging.nowPage}">
+					<a href="/pagingList?nowPage=${paging.endPage - 1}&cntPerPage=${paging.cntPerPage}">${p}</a>
+				</c:when>
+			</c:choose>
+		</c:forEach>
+		<c:if test="${paging.startPage != 1}">
+			<a href="/pagingList?nowPage=${paging.endPage - 1}&cntPerPage=${paging.cntPerPage}">&gt;</a>
+		</c:if>
+	</div>
+	
+
 </body>
 </html>

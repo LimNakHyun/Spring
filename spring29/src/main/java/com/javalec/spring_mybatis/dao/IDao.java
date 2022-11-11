@@ -13,14 +13,17 @@ import com.javalec.spring_mybatis.vo.PagingVO;
 @Repository("iDao")
 public interface IDao {
 	
-	//게시글 불러오기
-	public ArrayList<ContentDto> listDao();
+//	//게시글 불러오기
+//	public ArrayList<ContentDto> listDao();
 	
 	//게시글 페이징 처리하여 불러오기
 	public ArrayList<ContentDto> pagingListDao(PagingVO vo);
+
+	//게시글 페이징 처리하여 검색한 후 불러오기
+	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo, String search);	
 	
-	//검색어로 게시글 불러오기
-	public ArrayList<ContentDto> searchDao(String search);
+//	//검색어로 게시글 불러오기
+//	public ArrayList<ContentDto> searchDao(String search);
 	
 	//게시글 작성
 	public void writeDao(String usrname, String pwd, String subject, String content);
