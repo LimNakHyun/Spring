@@ -23,9 +23,17 @@ public class ContentDao {
 		return idao.pagingListDao(vo);
 	}
 	
-	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo) {
-		return idao.pagingListDaoSearch(vo);
+//	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo) {
+//		return idao.pagingListDaoSearch(vo);
+//	}
+	
+	public int countBoard(PagingVO vo) {
+		return idao.countBoard(vo);
 	}
+	
+//	public int countSchBoard(PagingVO search) {
+//		return idao.countSchBoard(search);
+//	}
 	
 	public void writeDao(final String usrname, final String pwd, final String subject, final String content) { 
 		idao.writeDao(usrname, pwd, subject, content);
@@ -53,14 +61,6 @@ public class ContentDao {
 
 	public ContentDto confirmPwd(int num, String confirmPwd) {
 		return idao.confirmPwd(num, confirmPwd);
-	}
-	
-	public int countBoard() {
-		return idao.countBoard();
-	}
-	
-	public int countSchBoard(PagingVO search) {
-		return idao.countSchBoard(search);
 	}
 
 }

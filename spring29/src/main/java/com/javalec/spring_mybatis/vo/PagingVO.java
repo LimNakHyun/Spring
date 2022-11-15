@@ -16,7 +16,9 @@ public class PagingVO {
 	
 	private int lastPage;		//마지막 페이지
 	private int cntPage = 10;	//보여줄 최대 페이지의 개수
+	
 	private String search;		//검색어
+	private String searchType;	//검색 타입
 
 	public PagingVO() {
 		
@@ -119,6 +121,14 @@ public class PagingVO {
 
 	public void setSearch(String search) {
 		this.search = search;
+	}
+	
+	public String getSearchType() {
+		return searchType;
+	}
+
+	public void setSearchType(String searchType) {
+		this.searchType = searchType;
 	}
 	
 //	public boolean isNext() {

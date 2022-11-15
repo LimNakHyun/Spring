@@ -59,7 +59,14 @@
 					from (
 									select *
 									from boardtest3
-									where delyn = false
+									where delyn = false and
+		]]>
+									<if test="searchType == 'subject'">subject ilike '%' || #{search} || '%'</if>
+									<if test="searchType == 'content'">content ilike '%' || #{search} || '%'</if>
+									<if test="searchType == 'usrname'">usrname ilike '%' || #{search} || '%'</if>
+									<if test="searchType == 'subCon'">subject ilike '%' || #{search} || '%' or content ilike '%' || #{search} || '%'</if>
+									<if test="searchType == null or searchType == '' ">1 = 1</if>
+		<![CDATA[
 									order by num desc
 									) t
 					) s
@@ -71,17 +78,22 @@
 	<select id="countBoard" resultType="int">
 		select count(*) 
 		from boardtest3
-		where delyn = 'false'
+		where delyn = 'false' and
+		<if test="searchType == 'subject'">subject ilike '%' || #{search} || '%'</if>
+		<if test="searchType == 'content'">content ilike '%' || #{search} || '%'</if>
+		<if test="searchType == 'usrname'">usrname ilike '%' || #{search} || '%'</if>
+		<if test="searchType == 'subCon'">(subject ilike '%' || #{search} || '%' or content ilike '%' || #{search} || '%')</if>
+		<if test="searchType == null or searchType == '' ">1 = 1</if>
 	</select>
 	
 	<!-- 검색 총 개시글 갯수 -->
-	<select id="countSchBoard" resultType="int" parameterType="com.javalec.spring_mybatis.vo.PagingVO">
+	<!-- <select id="countSchBoard" resultType="int" parameterType="com.javalec.spring_mybatis.vo.PagingVO">
 		select count(*) 
 		from boardtest3 
 		where delyn = 'false'
 		and (subject ilike '%' || #{search} || '%'
 		or content ilike '%' || #{search} || '%')
-	</select>
+	</select> -->
 	<!-- 검색을 하여 게시글을 불러오는 쿼리 -->
 	<!-- <select id="searchDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select * from boardtest3

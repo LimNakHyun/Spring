@@ -36,7 +36,7 @@ textarea {
 
 	<tr>
 		<td>글 번호</td>
-		<td>${viewlist.num}</td>
+		<td>${viewlist.numbering}</td>
 	</tr>
 	<tr>
 	 	<td>작성자</td>

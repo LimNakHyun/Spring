@@ -123,8 +123,8 @@ public class HomeController {
 //	}
 	
 	@RequestMapping("/list")
-	public String list(Model model, PagingVO vo, String nowPage, String cntPerPage) {
-		int total = contentDao.countBoard();
+	public String list(HttpServletRequest request, Model model, PagingVO vo, String nowPage, String cntPerPage) {
+		int total = contentDao.countBoard(vo);
 		
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
@@ -136,6 +136,31 @@ public class HomeController {
 		}
 		
 		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
+		vo.setSearch(request.getParameter("search"));
+		vo.setSearchType(request.getParameter("searchType"));
+		
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", contentDao.pagingListDao(vo));
+		
+		return "/list";
+	}
+	
+	@RequestMapping(value = "/list", method = RequestMethod.POST)
+	public String listPost(HttpServletRequest request, Model model, PagingVO vo, String nowPage, String cntPerPage) {
+		int total = contentDao.countBoard(vo);
+		
+		if (nowPage == null && cntPerPage == null) {
+			nowPage = "1";
+			cntPerPage = "10";
+		} else if (nowPage == null) {
+			nowPage = "1";
+		} else if (cntPerPage == null) {
+			cntPerPage = "10";
+		}
+		
+		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
+		vo.setSearch(request.getParameter("search"));
+		vo.setSearchType(request.getParameter("searchType"));
 		
 		model.addAttribute("paging", vo);
 		model.addAttribute("list", contentDao.pagingListDao(vo));
