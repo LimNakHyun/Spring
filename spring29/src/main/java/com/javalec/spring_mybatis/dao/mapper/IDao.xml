@@ -15,7 +15,8 @@
 	</select> -->
 	
 	<!-- 페이징 처리를 하여 게시글을 불러오는 쿼리 -->
-	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+	<!-- <select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		<![CDATA[
 		select *
 			from (
 				select (row_number() over()) as numbering, t.*
@@ -28,9 +29,11 @@
 					) s
 		limit #{cntPerPage}
 		offset (#{nowPage} - 1) * #{cntPerPage};
+		]]>
 	</select>
 	
 	<select id="pagingListDaoSearch" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		<![CDATA[
 		select *
 			from (
 				select (row_number() over()) as numbering, t.*
@@ -45,13 +48,40 @@
 					) s
 		limit #{cntPerPage}
 		offset (#{nowPage} - 1) * #{cntPerPage};
+		]]>
+	</select> -->
+	
+	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		<![CDATA[
+		select *
+			from (
+				select (row_number() over()) as numbering, t.*
+					from (
+									select *
+									from boardtest3
+									where delyn = false
+									order by num desc
+									) t
+					) s
+		where numbering > (#{nowPage} - 1) * #{cntPerPage} and numbering <= #{nowPage} * #{cntPerPage};
+		]]>
 	</select>
 	
 	<!-- 총 게시글 갯수를 출력하는 쿼리 -->
 	<select id="countBoard" resultType="int">
-		select count(*) from boardtest3
+		select count(*) 
+		from boardtest3
+		where delyn = 'false'
 	</select>
 	
+	<!-- 검색 총 개시글 갯수 -->
+	<select id="countSchBoard" resultType="int" parameterType="com.javalec.spring_mybatis.vo.PagingVO">
+		select count(*) 
+		from boardtest3 
+		where delyn = 'false'
+		and (subject ilike '%' || #{search} || '%'
+		or content ilike '%' || #{search} || '%')
+	</select>
 	<!-- 검색을 하여 게시글을 불러오는 쿼리 -->
 	<!-- <select id="searchDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select * from boardtest3

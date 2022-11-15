@@ -5,28 +5,33 @@ import org.springframework.stereotype.Component;
 @Component
 public class PagingVO {
 
-	private int nowPage;		//현재 페이지
-	private int startPage;		//시작 페이지
-	private int endPage;		//끝 페이지
-	private int total;			//게시글 총 개수
-	private int cntPerPage;		//페이지당 글 개수
-	private int lastPage;		//마지막 페이지
-//	private int start;			//SQL 쿼리에 쓸 start
-//	private int end;			//SQL 쿼리에 쓸 end
-	private int cntPage = 5;	//보여줄 최대 페이지의 개수
-	private String search;
+	private int startPage;		//페이지 목록의 시작 페이지
+	private int endPage;		//페이지 목록의 끝 페이지
+//	private boolean next;		//다음 버튼 활성화
+//	private boolean prev;		//이전 버튼 활성화
 	
+	private int total;			//게시글 총 개수
+	private int nowPage;		//현재 페이지
+	private int cntPerPage;		//페이지당 글 개수
+	
+	private int lastPage;		//마지막 페이지
+	private int cntPage = 10;	//보여줄 최대 페이지의 개수
+	private String search;		//검색어
+
 	public PagingVO() {
 		
 	}
-
+	
 	public PagingVO(int nowPage, int total, int cntPerPage) {
+//	public PagingVO(CriteriaVO cri, int total) {
+//		setNowPage(cri.getNowPage());
+//		setCntPerPage(cri.getCntPerPage());
 		setNowPage(nowPage);
-		setTotal(total);
 		setCntPerPage(cntPerPage);
+		setTotal(total);
 		calcLastPage(getTotal(), getCntPerPage());
 		calcStartEndPage(getNowPage(), cntPage);
-//		calcStartEnd(getNowPage(), getCntPerPage());
+//		nextPrevButton(getNowPage(), getEndPage());
 	}
 	
 	//제일 마지막 페이지 계산
@@ -46,10 +51,10 @@ public class PagingVO {
 		}
 	}
 	
-//	//DB 쿼리에서 사용할 start, end 값 계산
-//	public void calcStartEnd(int nowPage, int cntPerPage) {
-//		setEnd(nowPage * cntPerPage);
-//		setStart(getEnd() - cntPerPage + 1);
+	//이전버튼, 다음버튼 활성화 여부
+//	public void nextPrevButton(int startPage, int endPage) {
+//		this.prev = startPage > 1;
+//		this.next = endPage < getLastPage();
 //	}
 
 	public int getNowPage() {
@@ -100,22 +105,6 @@ public class PagingVO {
 		this.lastPage = lastPage;
 	}
 
-//	public int getStart() {
-//		return start;
-//	}
-//
-//	public void setStart(int start) {
-//		this.start = start;
-//	}
-//
-//	public int getEnd() {
-//		return end;
-//	}
-//
-//	public void setEnd(int end) {
-//		this.end = end;
-//	}
-
 	public int getCntPage() {
 		return cntPage;
 	}
@@ -131,5 +120,21 @@ public class PagingVO {
 	public void setSearch(String search) {
 		this.search = search;
 	}
+	
+//	public boolean isNext() {
+//		return next;
+//	}
+//
+//	public void setNext(boolean next) {
+//		this.next = next;
+//	}
+//
+//	public boolean isPrev() {
+//		return prev;
+//	}
+//
+//	public void setPrev(boolean prev) {
+//		this.prev = prev;
+//	}
 	
 }

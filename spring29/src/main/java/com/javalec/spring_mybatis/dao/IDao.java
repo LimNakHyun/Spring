@@ -20,7 +20,7 @@ public interface IDao {
 	public ArrayList<ContentDto> pagingListDao(PagingVO vo);
 
 	//게시글 페이징 처리하여 검색한 후 불러오기
-	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo, String search);	
+	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo);	
 	
 //	//검색어로 게시글 불러오기
 //	public ArrayList<ContentDto> searchDao(String search);
@@ -45,4 +45,7 @@ public interface IDao {
 	
 	//게시글 총 개수
 	public int countBoard();
+	
+	// 검색 게시글 총 개수
+	public int countSchBoard(PagingVO search);
 }

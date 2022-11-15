@@ -23,8 +23,8 @@ public class ContentDao {
 		return idao.pagingListDao(vo);
 	}
 	
-	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo, String search) {
-		return idao.pagingListDaoSearch(vo, search);
+	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo) {
+		return idao.pagingListDaoSearch(vo);
 	}
 	
 	public void writeDao(final String usrname, final String pwd, final String subject, final String content) { 
@@ -57,6 +57,10 @@ public class ContentDao {
 	
 	public int countBoard() {
 		return idao.countBoard();
+	}
+	
+	public int countSchBoard(PagingVO search) {
+		return idao.countSchBoard(search);
 	}
 
 }

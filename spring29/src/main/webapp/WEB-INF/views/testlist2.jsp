@@ -55,33 +55,21 @@
 	</section>
 	
 	<div style="display: block; text-align: center;">
-		<!-- 첫 페이지로 버튼 -->
-		<a href="/list?nowPage=${1}&cntPerPage=${paging.cntPerPage}">&lt;&lt;</a>
-		
 		<!-- 이전버튼 활성화 여부 -->
-		<c:if test="${paging.startPage != 1}">
-			<a href="/list?nowPage=${paging.startPage - 1}&cntPerPage=${paging.cntPerPage}">&lt;</a>
+		<c:if test="${paging.prev}">
+			<a href="list?nowPage=${paging.startPage - 1}&cntPerPage=${paging.cntPerPage}">이전</a>
 		</c:if>
 		
 		<!-- 페이지네이션 처리 -->
 		<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
-			<c:choose>
-				<c:when test="${p == paging.nowPage}">
-					<b>${p}</b>
-				</c:when>
-				<c:when test="${p != paging.nowPage}">
-					<a href="/list?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
-				</c:when>
-			</c:choose>
+			<li class="${paging.nowPage eq p ? 'active' : ''}">
+				<a href="list?nowPage=${p}&cntPerPage=${paging.cntPerPage}">${p}</a>
 		</c:forEach>
 		
 		<!-- 다음버튼 활성화 여부 -->
-		<c:if test="${paging.endPage != paging.lastPage}">
-			<a href="/list?nowPage=${paging.endPage + 1}&cntPerPage=${paging.cntPerPage}">&gt;</a>
+		<c:if test="${paging.next}">
+			<a href="list?nowPage=${paging.endPage + 1}&cntPerPage=${paging.cntPerPage}">이전</a>
 		</c:if>
-		
-		<!-- 마지막 페이지로 버튼 -->
-		<a href="/list?nowPage=${paging.lastPage}&cntPerPage=${paging.cntPerPage}">&gt;&gt;</a>
 	</div>
 
 

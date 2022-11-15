@@ -4,13 +4,15 @@
 <%@ page session="false" %>
 <html>
 <head>
-	<title>Home</title>
+	<title>로그인 화면</title>
 </head>
 <body>
-<h1>
-	Hello world!  
-</h1>
+<h3>로컬 게시판</h3>
+<div>
+	<form>
+		
+	</form>
+</div>
 
-<P>  The time on the server is ${serverTime}. </P>
 </body>
 </html>

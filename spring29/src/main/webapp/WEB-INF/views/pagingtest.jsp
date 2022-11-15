@@ -13,8 +13,8 @@
 <label>total : ${paging.total}</label><br>
 <label>cntPerPage : ${paging.cntPerPage}</label><br>
 <label>lastPage : ${paging.lastPage}</label><br>
-<label>start : ${paging.start}</label><br>
-<label>end : ${paging.end}</label><br>
+<%-- <label>start : ${paging.start}</label><br>
+<label>end : ${paging.end}</label><br> --%>
 <label>cntPage : ${paging.cntPage}</label><br>
 </body>
 </html>

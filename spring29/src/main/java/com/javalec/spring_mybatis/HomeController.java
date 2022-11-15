@@ -26,11 +26,12 @@ public class HomeController {
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpServletRequest request, Model model, PagingVO vo) {
 //		model.addAttribute("list", contentDao.listDao());
-		int total = contentDao.countBoard();
-		vo = new PagingVO(total, 1, 5);
-		model.addAttribute("list", contentDao.pagingListDao(vo));
-		
-		return "/list";
+//		int total = contentDao.countBoard();
+//		vo = new PagingVO(1, total, 5);
+//		model.addAttribute("list", contentDao.pagingListDao(vo));
+//		model.addAttribute("pagingVO", vo);
+		return "redirect:/list";
+//		return "/home";
 	}
 	
 //	@RequestMapping("/list")
@@ -46,27 +47,98 @@ public class HomeController {
 //		return "/list";
 //	}
 	
-	@RequestMapping("/pagingList")
-//	public String pagingList(String search, Model model, int nowPage, int cntPerPage) {
-	public String pagingList(String search, PagingVO vo, Model model, String nowPage, String cntPerPage) {
+//	@RequestMapping("/list")
+//	public String pagingList(String search, PagingVO vo, Model model, String nowPage, String cntPerPage) {
+////	public String pagingList(PagingVO vo, Model model, String nowPage, String cntPerPage) {
+////		int total = contentDao.countBoard();
+//		
+//		if (nowPage == null && cntPerPage == null) {
+//			nowPage = "1";
+//			cntPerPage = "10";
+//		} else if (nowPage == null) {
+//			nowPage = "1";
+//		} else if (cntPerPage == null) {
+//			cntPerPage = "10";
+//		}
+//		
+////		vo.setSearch(search);
+//		int total = contentDao.countSchBoard(vo);
+////		int total = contentDao.countBoard();
+//		
+//		//vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
+//		//model.addAttribute("paging", vo);
+//		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
+//		
+//		if(vo.getSearch() == null) {
+////			vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage), search);
+//			model.addAttribute("paging", vo);
+//			model.addAttribute("list", contentDao.pagingListDao(vo));
+//		} else {
+////			vo.setSearch(search);
+////			int schTotal = contentDao.countSchBoard(vo);
+////			vo = new PagingVO(Integer.parseInt(nowPage), schTotal, Integer.parseInt(cntPerPage), search);
+////			vo.setSearch(search);
+////			ArrayList<ContentDto> searchDao = contentDao.pagingListDaoSearch(vo);
+////			model.addAttribute("paging2", vo);
+//			model.addAttribute("paging", vo);
+////			model.addAttribute("list", searchDao);
+//			model.addAttribute("list", contentDao.pagingListDaoSearch(vo));
+//			//model.addAttribute("list", contentDao.pagingListDaoSearch(vo));
+//		}
+//		
+//		return "/list";
+////		return "/pagingtest";
+//	}
+	
+//	@RequestMapping("/list")
+////	public String pagingList(HttpSession session, String search, PagingVO vo, Model model, String nowPage, String cntPerPage) {
+////	public String pagingList(String search, PagingVO vo, Model model, CriteriaVO cri) {
+//	public String pagingList(PagingVO vo, Model model, CriteriaVO cri) {
+////	public String pagingList(Model model) {
+////		int total = contentDao.countBoard();
+//		if(cri == null) {
+//			cri = new CriteriaVO();
+//		}
+//		if(vo == null) {
+//			vo = new PagingVO(cri, contentDao.countBoard());
+//		}
+//		
+////		vo = new PagingVO(cri, total);
+////		System.out.println(session.getAttribute("search"));
+////		if(search == null) {
+////			model.addAttribute("paging", vo);
+////			model.addAttribute("list", contentDao.pagingListDao(vo));
+////		} else {
+////			int schTotal = contentDao.countSchBoard(search);
+////			cri.setSearch(search);
+////			vo = new PagingVO(cri, schTotal);
+////			model.addAttribute("paging2", vo);
+////			model.addAttribute("list", contentDao.pagingListDaoSearch(vo));
+////		}
+//		model.addAttribute("paging", vo);
+//		model.addAttribute("list", contentDao.pagingListDao(cri));
+//		
+//		return "/list";
+////		return "/testlist";
+//	}
+	
+	@RequestMapping("/list")
+	public String list(Model model, PagingVO vo, String nowPage, String cntPerPage) {
 		int total = contentDao.countBoard();
+		
 		if (nowPage == null && cntPerPage == null) {
 			nowPage = "1";
-			cntPerPage = "5";
+			cntPerPage = "10";
 		} else if (nowPage == null) {
 			nowPage = "1";
 		} else if (cntPerPage == null) {
-			cntPerPage = "5";
+			cntPerPage = "10";
 		}
 		
-		vo = new PagingVO(total, Integer.parseInt(nowPage), Integer.parseInt(cntPerPage));
+		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
+		
 		model.addAttribute("paging", vo);
-		
-		if(search == null) {
-			model.addAttribute("list", contentDao.pagingListDao(vo));
-		} else {
-			model.addAttribute("list", contentDao.pagingListDaoSearch(vo, search));
-		}
+		model.addAttribute("list", contentDao.pagingListDao(vo));
 		
 		return "/list";
 	}
