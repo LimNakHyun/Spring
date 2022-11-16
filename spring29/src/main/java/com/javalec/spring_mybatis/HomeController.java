@@ -30,8 +30,8 @@ public class HomeController {
 //		vo = new PagingVO(1, total, 5);
 //		model.addAttribute("list", contentDao.pagingListDao(vo));
 //		model.addAttribute("pagingVO", vo);
-		return "redirect:/list";
-//		return "/home";
+//		return "redirect:/list";
+		return "/home";
 	}
 	
 //	@RequestMapping("/list")
@@ -181,8 +181,10 @@ public class HomeController {
 //		return "/pagingtest";
 //	}
 	
-	@RequestMapping("/writeForm")
-	public String writeForm() {
+	@RequestMapping(value = "/writeForm", method = RequestMethod.POST)
+	public String writeForm(Model model, PagingVO vo) {
+
+		model.addAttribute("paging", vo);
 		
 		return "/writeForm";
 	}

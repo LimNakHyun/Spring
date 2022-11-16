@@ -25,31 +25,46 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 <style>
-	/* .search-wrap {
-		height: 40px;
-		width: 400px;
-		border: 1px solid #1b5ac2;
-		background: #ffffff;
-	}
-	
-	input {
-		font-size: 16px;
-		width: 325px;
-		padding: 10px;
-		border: 0px;
-		outline: none;
-		float: left;
-	}
-	
-	button {
-		width: 50px;
-		height: 100%;
-		border: 0px;
-		background: #1b5ac2;
-		outline: none;
-		float: right;
-		color: #ffffff;
-	} */
+  body {
+    font: 20px Montserrat, sans-serif;
+    line-height: 1.8;
+    /* color: #f5f6f7; */
+  }
+  p {font-size: 16px;}
+  .margin {margin-bottom: 45px;}
+  .bg-1 { 
+    background-color: #1abc9c; /* Green */
+    color: #ffffff;
+  }
+  .bg-2 { 
+    background-color: #474e5d; /* Dark Blue */
+    color: #ffffff;
+  }
+  .bg-3 { 
+    background-color: #ffffff; /* White */
+    color: #555555;
+  }
+  .bg-4 { 
+    background-color: #2f2f2f; /* Black Gray */
+    color: #fff;
+  }
+  .container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+  }
+  .navbar {
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border: 0;
+    border-radius: 0;
+    margin-bottom: 0;
+    font-size: 12px;
+    letter-spacing: 5px;
+  }
+  .navbar-nav  li a:hover {
+    color: #1abc9c !important;
+  }
+  
 </style>
 
 </head>
@@ -59,9 +74,18 @@
 	<span style="margin-left: auto; margin-right: auto;" class="glyphicon glyphicon-home btn-lg"></span>
 </a>
 
+<h3 align="center">로컬 게시판</h3>
+
+<form action="writeForm" method="post">
 	<section align="right">
 		<button onclick="location.href='writeForm'" class="btn btn-primary search-btn">글 작성</button>&nbsp;&nbsp;&nbsp;
 	</section>
+	
+	<input type="hidden" name="nowPage" value="${paging.nowPage}">
+	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
+	<input type="hidden" name="searchType" value="${paging.searchType}">
+	<input type="hidden" name="search" value="${paging.search}">
+</form>
 
 <br>
 
@@ -112,61 +136,61 @@
 	<input type="hidden" name="cntPerPage" value="10">
 </form>
 	
-	<form action="list" name="pageForm" method="post">
-		<div style="display: block; text-align: center;">
-			<ul class="pagination pagination-sm">
-				<!-- 첫 페이지로 버튼 -->
-				<li><a href="#" data-nowpage='${1}'>&lt;&lt;</a></li>
-				
-				<!-- 이전버튼 활성화 여부 -->
-				<c:if test="${paging.startPage != 1}">
-					<li><a href="#" data-nowpage='${paging.startPage - 1}'>&lt;</a></li>
-				</c:if>
-				
-				<!-- 페이지네이션 처리 -->
-				<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
-					<li class="${paging.nowPage eq p ? 'active' : ''}">
-						<a href="#" data-nowpage='${p}'>${p}</a>
-					</li>
-				</c:forEach>
-				
-				<!-- 다음버튼 활성화 여부 -->
-				<c:if test="${paging.endPage != paging.lastPage}">
-					<li><a href="#" data-nowpage='${paging.endPage + 1}'>&gt;</a>
-				</c:if>
-				
-				<!-- 마지막 페이지로 버튼 -->
-				<li><a href="#" data-nowpage='${paging.lastPage}'>&gt;&gt;</a></li>
-			</ul>
+<form action="list" name="pageForm" method="post">
+	<div style="display: block; text-align: center;">
+		<ul class="pagination pagination-sm">
+			<!-- 첫 페이지로 버튼 -->
+			<li><a href="#" data-nowpage='${1}'>&lt;&lt;</a></li>
 			
-				<input type="hidden" name="nowPage" value="${paging.nowPage}">
-				<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
-				<input type="hidden" name="searchType" value="${paging.searchType}">
-				<input type="hidden" name="search" value="${paging.search}">
-		</div>
-	</form>
-	
-	<script>
-		var pagination = document.querySelector(".pagination");
-		pagination.onclick = function() {
-			event.preventDefault();
-			if(event.target.tagName != 'A') return;
+			<!-- 이전버튼 활성화 여부 -->
+			<c:if test="${paging.startPage != 1}">
+				<li><a href="#" data-nowpage='${paging.startPage - 1}'>&lt;</a></li>
+			</c:if>
 			
-			document.pageForm.nowPage.value = event.target.dataset.nowpage;
-			document.pageForm.submit();
-		}
+			<!-- 페이지네이션 처리 -->
+			<c:forEach begin="${paging.startPage}" end="${paging.endPage}" var="p">
+				<li class="${paging.nowPage eq p ? 'active' : ''}">
+					<a href="#" data-nowpage='${p}'>${p}</a>
+				</li>
+			</c:forEach>
+			
+			<!-- 다음버튼 활성화 여부 -->
+			<c:if test="${paging.endPage != paging.lastPage}">
+				<li><a href="#" data-nowpage='${paging.endPage + 1}'>&gt;</a>
+			</c:if>
+			
+			<!-- 마지막 페이지로 버튼 -->
+			<li><a href="#" data-nowpage='${paging.lastPage}'>&gt;&gt;</a></li>
+		</ul>
 		
-		window.onload = function() {
-			if(history.state == '') return;
-			
-			var msg = '<c:out value="${msg}" />';
-			
-			if(msg != '') {
-				alert(msg);
-				history.replaceState('', null, null);
-			}
+			<input type="hidden" name="nowPage" value="${paging.nowPage}">
+			<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
+			<input type="hidden" name="searchType" value="${paging.searchType}">
+			<input type="hidden" name="search" value="${paging.search}">
+	</div>
+</form>
+	
+<script>
+	var pagination = document.querySelector(".pagination");
+	pagination.onclick = function() {
+		event.preventDefault();
+		if(event.target.tagName != 'A') return;
+		
+		document.pageForm.nowPage.value = event.target.dataset.nowpage;
+		document.pageForm.submit();
+	}
+	
+	window.onload = function() {
+		if(history.state == '') return;
+		
+		var msg = '<c:out value="${msg}" />';
+		
+		if(msg != '') {
+			alert(msg);
+			history.replaceState('', null, null);
 		}
-	</script>
+	}
+</script>
 
 </body>
 </html>
