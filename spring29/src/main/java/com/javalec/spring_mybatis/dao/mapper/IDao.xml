@@ -7,53 +7,9 @@
 	
 	
 	<!-- 받아오는 값이 있었기 때문에 resultType이 존재함 -->
-	<!-- 게시글 불러오는 쿼리 -->
-	<!-- <select id="listDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
-		select * from boardtest3
-		where delyn = 'false'
-		order by num
-	</select> -->
-	
-	<!-- 페이징 처리를 하여 게시글을 불러오는 쿼리 -->
-	<!-- <select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		<![CDATA[
-		select *
-			from (
-				select (row_number() over()) as numbering, t.*
-					from (
-									select *
-									from boardtest3
-									where delyn = false
-									order by num
-									) t
-					) s
-		limit #{cntPerPage}
-		offset (#{nowPage} - 1) * #{cntPerPage};
-		]]>
-	</select>
-	
-	<select id="pagingListDaoSearch" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
-		<![CDATA[
-		select *
-			from (
-				select (row_number() over()) as numbering, t.*
-					from (
-									select *
-									from boardtest3
-									where delyn = false
-									and (subject ilike '%' || #{search} || '%'
-									or content ilike '%' || #{search} || '%')
-									order by num
-									) t
-					) s
-		limit #{cntPerPage}
-		offset (#{nowPage} - 1) * #{cntPerPage};
-		]]>
-	</select> -->
-	
-	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.PagingVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
-		<![CDATA[
-		select *
+		select numbering, num, usrname, pwd, subject, cnt, date
 			from (
 				select (row_number() over()) as numbering, t.*
 					from (
@@ -70,7 +26,7 @@
 									order by num desc
 									) t
 					) s
-		where numbering > (#{nowPage} - 1) * #{cntPerPage} and numbering <= #{nowPage} * #{cntPerPage};
+		where numbering > (#{nowPage} - 1) * #{cntPerPage} and numbering <= #{nowPage} * #{cntPerPage}
 		]]>
 	</select>
 	
@@ -86,29 +42,12 @@
 		<if test="searchType == null or searchType == '' ">1 = 1</if>
 	</select>
 	
-	<!-- 검색 총 개시글 갯수 -->
-	<!-- <select id="countSchBoard" resultType="int" parameterType="com.javalec.spring_mybatis.vo.PagingVO">
-		select count(*) 
-		from boardtest3 
-		where delyn = 'false'
-		and (subject ilike '%' || #{search} || '%'
-		or content ilike '%' || #{search} || '%')
-	</select> -->
-	<!-- 검색을 하여 게시글을 불러오는 쿼리 -->
-	<!-- <select id="searchDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
-		select * from boardtest3
-		where delyn = 'false'
-		and (subject ilike '%' || #{search} || '%'
-		or content ilike '%' || #{search} || '%')
-		order by num
-	</select> -->
-	
 	<!-- 받아오는 값이 없었기 때문에 resultType이 존재하지 않음 -->
 	<!-- #을 붙이면 들어오는 값을 반환 타입에 맞게 조정해 준다. -->
 	<!-- $를 붙이면 String이 오면 그냥 데이터베이스에 밀어넣는다 -->
-	<insert id="writeDao">
+	<insert id="writeDao" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
 		insert into boardtest3 (num, usrname, pwd, subject, content, cnt, delyn, deldate, date)
-		values (default, #{param1}, #{param2}, #{param3}, #{param4}, '0', default, default, now())
+		values (default, #{usrname}, #{pwd}, #{subject}, #{content}, '0', default, default, now())
 	</insert>
 	
 	<!-- 메소드명은 인터페이스에 있는것을 그대로 가져와보자 -->
@@ -117,13 +56,27 @@
 		update boardtest3 set delyn = 'true', deldate = now() where num = ${param1}
 	</delete>
 
-	<select id="viewDao" resultType="com.javalec.spring_mybatis.dto.ContentDto">
-		select num, usrname, subject, content, cnt, date, pwd
-		from boardtest3 where num = #{param1}
+	<select id="viewDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		select *
+			from (
+				select (row_number() over()) as numbering, t.*
+					from (
+									select *
+									from boardtest3
+									where delyn = false and
+									<if test="searchType == 'subject'">subject ilike '%' || #{search} || '%'</if>
+									<if test="searchType == 'content'">content ilike '%' || #{search} || '%'</if>
+									<if test="searchType == 'usrname'">usrname ilike '%' || #{search} || '%'</if>
+									<if test="searchType == 'subCon'">subject ilike '%' || #{search} || '%' or content ilike '%' || #{search} || '%'</if>
+									<if test="searchType == null or searchType == '' ">1 = 1</if>
+									order by num desc
+									) t
+					) s
+		where num = #{num}
 	</select>
 	
-	<update id="cntDao">
-		update boardtest3 set cnt = cnt + 1 where num = #{param1}
+	<update id="cntDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
+		update boardtest3 set cnt = cnt + 1 where num = #{num}
 	</update>
 	
 	<update id="updateDao" parameterType="int">

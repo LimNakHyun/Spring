@@ -3,36 +3,29 @@ package com.javalec.spring_mybatis.dao;
 import java.util.ArrayList;
 
 import org.apache.ibatis.annotations.Mapper;
-//import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.spring_mybatis.dto.ContentDto;
-import com.javalec.spring_mybatis.vo.PagingVO;
+import com.javalec.spring_mybatis.vo.CriteriaVO;
 
 @Mapper
 @Repository("iDao")
 public interface IDao {
 	
-//	//게시글 불러오기
-//	public ArrayList<ContentDto> listDao();
-	
 	//게시글 페이징 처리하여 불러오기
-	public ArrayList<ContentDto> pagingListDao(PagingVO vo);
+	public ArrayList<ContentDto> pagingListDao(CriteriaVO cri);
 
-	//게시글 페이징 처리하여 검색한 후 불러오기
-//	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo);
-	
-//	//검색어로 게시글 불러오기
-//	public ArrayList<ContentDto> searchDao(String search);
+	//게시글 총 개수
+	public int countBoard(CriteriaVO cri);
 	
 	//게시글 작성
-	public void writeDao(String usrname, String pwd, String subject, String content);
+	public void writeDao(ContentDto contentDto);
 	
 	//게시글 보기
-	public ContentDto viewDao(int num);
+	public ContentDto viewDao(CriteriaVO cri);
 	
 	//게시글 조회수 증가
-	public void cntDao(int num);
+	public void cntDao(CriteriaVO cri);
 	
 	//게시글 삭제
 	public void deleteDao(String num);
@@ -43,9 +36,4 @@ public interface IDao {
 	//비밀번호 확인
 	public ContentDto confirmPwd(int num, String confirmPwd);
 	
-	//게시글 총 개수
-	public int countBoard(PagingVO vo);
-	
-	// 검색 게시글 총 개수
-//	public int countSchBoard(PagingVO search);
 }

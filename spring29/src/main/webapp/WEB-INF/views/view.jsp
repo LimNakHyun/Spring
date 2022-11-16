@@ -27,43 +27,9 @@
   }
 
   body {
-    font: 20px Montserrat, sans-serif;
+    font: 16px Montserrat, sans-serif;
     line-height: 1.8;
     /* color: #f5f6f7; */
-  }
-  p {font-size: 16px;}
-  .margin {margin-bottom: 45px;}
-  .bg-1 { 
-    background-color: #1abc9c; /* Green */
-    color: #ffffff;
-  }
-  .bg-2 { 
-    background-color: #474e5d; /* Dark Blue */
-    color: #ffffff;
-  }
-  .bg-3 { 
-    background-color: #ffffff; /* White */
-    color: #555555;
-  }
-  .bg-4 { 
-    background-color: #2f2f2f; /* Black Gray */
-    color: #fff;
-  }
-  .container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
-  }
-  .navbar {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border: 0;
-    border-radius: 0;
-    margin-bottom: 0;
-    font-size: 12px;
-    letter-spacing: 5px;
-  }
-  .navbar-nav  li a:hover {
-    color: #1abc9c !important;
   }
   
 </style>
@@ -102,11 +68,30 @@
 	
 </table>
 
-<%-- <button onclick="location.href='list?search=${search}'">글 목록</button> &nbsp;&nbsp; --%>
-&nbsp;&nbsp;<button onclick="location.href='list'">글 목록</button>
-&nbsp;&nbsp;<button onclick="location.href='/updateForm?num=${viewlist.num}'">글 수정</button>
-<%-- &nbsp;&nbsp;<button onclick="location.href='delete?num=${viewlist.num}'">글 삭제</button> --%>
-&nbsp;&nbsp;<button onclick="location.href='deleteForm?num=${viewlist.num}'">글 삭제</button>
+<form action="list" method="post">
+	&nbsp;&nbsp;<button>글 목록</button>
+	
+	<input type="hidden" name="nowPage" value="${paging.nowPage}">
+	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
+	<input type="hidden" name="searchType" value="${paging.searchType}">
+	<input type="hidden" name="search" value="${paging.search}">
+</form>
+<form action="" method="post">
+	&nbsp;&nbsp;<button>글 수정</button>
+	
+	<input type="hidden" name="nowPage" value="${paging.nowPage}">
+	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
+	<input type="hidden" name="searchType" value="${paging.searchType}">
+	<input type="hidden" name="search" value="${paging.search}">
+</form>
+<form action="" method="post">
+	&nbsp;&nbsp;<button>글 삭제</button>
+	
+	<input type="hidden" name="nowPage" value="${paging.nowPage}">
+	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
+	<input type="hidden" name="searchType" value="${paging.searchType}">
+	<input type="hidden" name="search" value="${paging.search}">
+</form>
 
 
 </body>

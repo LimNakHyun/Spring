@@ -6,8 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javalec.spring_mybatis.dto.ContentDto;
-import com.javalec.spring_mybatis.vo.PagingVO;
-
+import com.javalec.spring_mybatis.vo.CriteriaVO;
 
 @Service("contentDao")
 public class ContentDao {
@@ -15,45 +14,29 @@ public class ContentDao {
 	@Autowired
 	private IDao idao;
 	
-//	public ArrayList<ContentDto> listDao() {
-//		return idao.listDao();
-//	}
-	
-	public ArrayList<ContentDto> pagingListDao(PagingVO vo) {
-		return idao.pagingListDao(vo);
+	public ArrayList<ContentDto> pagingListDao(CriteriaVO cri) {
+		return idao.pagingListDao(cri);
 	}
 	
-//	public ArrayList<ContentDto> pagingListDaoSearch(PagingVO vo) {
-//		return idao.pagingListDaoSearch(vo);
-//	}
-	
-	public int countBoard(PagingVO vo) {
-		return idao.countBoard(vo);
+	public int countBoard(CriteriaVO cri) {
+		return idao.countBoard(cri);
 	}
 	
-//	public int countSchBoard(PagingVO search) {
-//		return idao.countSchBoard(search);
-//	}
-	
-	public void writeDao(final String usrname, final String pwd, final String subject, final String content) { 
-		idao.writeDao(usrname, pwd, subject, content);
+	public void writeDao(ContentDto contentDto) {
+		idao.writeDao(contentDto);
 	}
 	
-	public ContentDto viewDao(final int num) {
-		return idao.viewDao(num);
+	public ContentDto viewDao(CriteriaVO cri) {
+		return idao.viewDao(cri);
 	}
 	
-	public void deleteDao(final String num) { 
+	public void deleteDao(String num) { 
 		idao.deleteDao(num);
 	}
 
-	public void cntDao(int num) { 
-		idao.cntDao(num);
+	public void cntDao(CriteriaVO cri) { 
+		idao.cntDao(cri);
 	}
-	
-//	public ArrayList<ContentDto> searchDao(String search) {
-//		return idao.searchDao(search);
-//	}
 
 	public void updateDao(String subject, String content, String num) {
 		idao.updateDao(subject, content, num);

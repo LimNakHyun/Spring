@@ -7,8 +7,6 @@ public class PagingVO {
 
 	private int startPage;		//페이지 목록의 시작 페이지
 	private int endPage;		//페이지 목록의 끝 페이지
-//	private boolean next;		//다음 버튼 활성화
-//	private boolean prev;		//이전 버튼 활성화
 	
 	private int total;			//게시글 총 개수
 	private int nowPage;		//현재 페이지
@@ -17,23 +15,22 @@ public class PagingVO {
 	private int lastPage;		//마지막 페이지
 	private int cntPage = 10;	//보여줄 최대 페이지의 개수
 	
+	private CriteriaVO cri;		//cri 정의
 	private String search;		//검색어
-	private String searchType;	//검색 타입
+	private String searchType;	//검색타입
 
 	public PagingVO() {
 		
 	}
 	
-	public PagingVO(int nowPage, int total, int cntPerPage) {
-//	public PagingVO(CriteriaVO cri, int total) {
-//		setNowPage(cri.getNowPage());
-//		setCntPerPage(cri.getCntPerPage());
-		setNowPage(nowPage);
-		setCntPerPage(cntPerPage);
+	public PagingVO(CriteriaVO cri, int total) {
+		setNowPage(cri.getNowPage());
+		setCntPerPage(cri.getCntPerPage());
 		setTotal(total);
+		setSearch(cri.getSearch());
+		setSearchType(cri.getSearchType());
 		calcLastPage(getTotal(), getCntPerPage());
 		calcStartEndPage(getNowPage(), cntPage);
-//		nextPrevButton(getNowPage(), getEndPage());
 	}
 	
 	//제일 마지막 페이지 계산
@@ -52,12 +49,6 @@ public class PagingVO {
 			setStartPage(1);
 		}
 	}
-	
-	//이전버튼, 다음버튼 활성화 여부
-//	public void nextPrevButton(int startPage, int endPage) {
-//		this.prev = startPage > 1;
-//		this.next = endPage < getLastPage();
-//	}
 
 	public int getNowPage() {
 		return nowPage;
@@ -114,7 +105,15 @@ public class PagingVO {
 	public void setCntPage(int cntPage) {
 		this.cntPage = cntPage;
 	}
+	
+	public CriteriaVO getCri() {
+		return cri;
+	}
 
+	public void setCri(CriteriaVO cri) {
+		this.cri = cri;
+	}
+	
 	public String getSearch() {
 		return search;
 	}
@@ -122,7 +121,7 @@ public class PagingVO {
 	public void setSearch(String search) {
 		this.search = search;
 	}
-	
+
 	public String getSearchType() {
 		return searchType;
 	}
@@ -130,21 +129,5 @@ public class PagingVO {
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
 	}
-	
-//	public boolean isNext() {
-//		return next;
-//	}
-//
-//	public void setNext(boolean next) {
-//		this.next = next;
-//	}
-//
-//	public boolean isPrev() {
-//		return prev;
-//	}
-//
-//	public void setPrev(boolean prev) {
-//		this.prev = prev;
-//	}
 	
 }

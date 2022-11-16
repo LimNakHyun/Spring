@@ -1,5 +1,7 @@
 package com.javalec.spring_mybatis;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.javalec.spring_mybatis.dao.ContentDao;
 import com.javalec.spring_mybatis.dto.ContentDto;
+import com.javalec.spring_mybatis.vo.CriteriaVO;
 import com.javalec.spring_mybatis.vo.PagingVO;
 
 @Controller
@@ -19,167 +22,38 @@ public class HomeController {
 	//injection과 resource Autowired의 차이점을 알아야 한다.
 	@Autowired
 	private ContentDao contentDao;
-	
-//	@Autowired
-//	private PagingVO vo;
 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(HttpServletRequest request, Model model, PagingVO vo) {
-//		model.addAttribute("list", contentDao.listDao());
-//		int total = contentDao.countBoard();
-//		vo = new PagingVO(1, total, 5);
-//		model.addAttribute("list", contentDao.pagingListDao(vo));
-//		model.addAttribute("pagingVO", vo);
-//		return "redirect:/list";
+	public String home(Model model) {
+		
 		return "/home";
 	}
 	
-//	@RequestMapping("/list")
-//	public String list(String search, Model model) {
-//		
-//		
-//		if(search == null) {
-//			model.addAttribute("list", contentDao.listDao());
-//		} else {
-//			model.addAttribute("list", contentDao.searchDao(search));
-//		}
-//		
-//		return "/list";
-//	}
-	
-//	@RequestMapping("/list")
-//	public String pagingList(String search, PagingVO vo, Model model, String nowPage, String cntPerPage) {
-////	public String pagingList(PagingVO vo, Model model, String nowPage, String cntPerPage) {
-////		int total = contentDao.countBoard();
-//		
-//		if (nowPage == null && cntPerPage == null) {
-//			nowPage = "1";
-//			cntPerPage = "10";
-//		} else if (nowPage == null) {
-//			nowPage = "1";
-//		} else if (cntPerPage == null) {
-//			cntPerPage = "10";
-//		}
-//		
-////		vo.setSearch(search);
-//		int total = contentDao.countSchBoard(vo);
-////		int total = contentDao.countBoard();
-//		
-//		//vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
-//		//model.addAttribute("paging", vo);
-//		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
-//		
-//		if(vo.getSearch() == null) {
-////			vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage), search);
-//			model.addAttribute("paging", vo);
-//			model.addAttribute("list", contentDao.pagingListDao(vo));
-//		} else {
-////			vo.setSearch(search);
-////			int schTotal = contentDao.countSchBoard(vo);
-////			vo = new PagingVO(Integer.parseInt(nowPage), schTotal, Integer.parseInt(cntPerPage), search);
-////			vo.setSearch(search);
-////			ArrayList<ContentDto> searchDao = contentDao.pagingListDaoSearch(vo);
-////			model.addAttribute("paging2", vo);
-//			model.addAttribute("paging", vo);
-////			model.addAttribute("list", searchDao);
-//			model.addAttribute("list", contentDao.pagingListDaoSearch(vo));
-//			//model.addAttribute("list", contentDao.pagingListDaoSearch(vo));
-//		}
-//		
-//		return "/list";
-////		return "/pagingtest";
-//	}
-	
-//	@RequestMapping("/list")
-////	public String pagingList(HttpSession session, String search, PagingVO vo, Model model, String nowPage, String cntPerPage) {
-////	public String pagingList(String search, PagingVO vo, Model model, CriteriaVO cri) {
-//	public String pagingList(PagingVO vo, Model model, CriteriaVO cri) {
-////	public String pagingList(Model model) {
-////		int total = contentDao.countBoard();
-//		if(cri == null) {
-//			cri = new CriteriaVO();
-//		}
-//		if(vo == null) {
-//			vo = new PagingVO(cri, contentDao.countBoard());
-//		}
-//		
-////		vo = new PagingVO(cri, total);
-////		System.out.println(session.getAttribute("search"));
-////		if(search == null) {
-////			model.addAttribute("paging", vo);
-////			model.addAttribute("list", contentDao.pagingListDao(vo));
-////		} else {
-////			int schTotal = contentDao.countSchBoard(search);
-////			cri.setSearch(search);
-////			vo = new PagingVO(cri, schTotal);
-////			model.addAttribute("paging2", vo);
-////			model.addAttribute("list", contentDao.pagingListDaoSearch(vo));
-////		}
-//		model.addAttribute("paging", vo);
-//		model.addAttribute("list", contentDao.pagingListDao(cri));
-//		
-//		return "/list";
-////		return "/testlist";
-//	}
-	
-	@RequestMapping("/list")
-	public String list(HttpServletRequest request, Model model, PagingVO vo, String nowPage, String cntPerPage) {
-		int total = contentDao.countBoard(vo);
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String list(Model model, PagingVO vo) {
+		CriteriaVO cri = new CriteriaVO();
+		int total = contentDao.countBoard(cri);
 		
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "10";
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) {
-			cntPerPage = "10";
-		}
-		
-		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
-		vo.setSearch(request.getParameter("search"));
-		vo.setSearchType(request.getParameter("searchType"));
+		vo = new PagingVO(cri, total);
 		
 		model.addAttribute("paging", vo);
-		model.addAttribute("list", contentDao.pagingListDao(vo));
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
+		model.addAttribute("list", list);
 		
 		return "/list";
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String listPost(HttpServletRequest request, Model model, PagingVO vo, String nowPage, String cntPerPage) {
-		int total = contentDao.countBoard(vo);
+	public String search(Model model, PagingVO vo, CriteriaVO cri) {
+		int total = contentDao.countBoard(cri);
 		
-		if (nowPage == null && cntPerPage == null) {
-			nowPage = "1";
-			cntPerPage = "10";
-		} else if (nowPage == null) {
-			nowPage = "1";
-		} else if (cntPerPage == null) {
-			cntPerPage = "10";
-		}
-		
-		vo = new PagingVO(Integer.parseInt(nowPage), total, Integer.parseInt(cntPerPage));
-		vo.setSearch(request.getParameter("search"));
-		vo.setSearchType(request.getParameter("searchType"));
+		vo = new PagingVO(cri, total);
 		
 		model.addAttribute("paging", vo);
-		model.addAttribute("list", contentDao.pagingListDao(vo));
+		model.addAttribute("list", contentDao.pagingListDao(cri));
 		
 		return "/list";
 	}
-	
-//	@RequestMapping("/pagingtest")
-////	public String pagingList(String search, Model model, int nowPage, int cntPerPage) {
-//	public String pagingtest(PagingVO vo, Model model) {
-//		int total = contentDao.countBoard();
-//		int nowPage = 1;
-//		int cntPerPage = 5;
-//		
-//		vo = new PagingVO(total, nowPage, cntPerPage);
-//		model.addAttribute("paging", vo);
-//		
-//		return "/pagingtest";
-//	}
 	
 	@RequestMapping(value = "/writeForm", method = RequestMethod.POST)
 	public String writeForm(Model model, PagingVO vo) {
@@ -190,20 +64,20 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/write")
-	public String write(HttpServletRequest request, Model model) {
-		
-		contentDao.writeDao(request.getParameter("usrname"), request.getParameter("pwd"), request.getParameter("subject"), request.getParameter("content"));
+	public String write(Model model, ContentDto contentDto) {
+
+		contentDao.writeDao(contentDto);
 		
 		return "redirect:list";
 	}
 	
-	@RequestMapping("/view")
-	public String view(HttpServletRequest request, Model model) {
+	@RequestMapping(value = "/view", method = RequestMethod.GET)
+	public String viewGet(Model model, PagingVO vo, CriteriaVO cri) {
 		
-		contentDao.cntDao(Integer.parseInt(request.getParameter("num")));
-//		model.addAttribute("search", request.getParameter("search"));
-		model.addAttribute("viewlist", contentDao.viewDao(Integer.parseInt(request.getParameter("num"))));
-		model.addAttribute("pwd",request.getParameter("pwd"));
+		contentDao.cntDao(cri);
+		ContentDto view = contentDao.viewDao(cri);
+		model.addAttribute("viewlist", view);
+		model.addAttribute("paging", vo);
 		
 		return "/view";
 	}
@@ -211,8 +85,6 @@ public class HomeController {
 	@RequestMapping("/deleteForm")
 	public String deleteForm(HttpServletRequest request, int num, Model model) {
 		
-//		IDao dao = sqlSession.getMapper(IDao.class);
-//		System.out.println("del 게시판 글번호 : " + s);
 		model.addAttribute("num", num);
 		model.addAttribute("pwd", request.getParameter("pwd"));
 
@@ -225,12 +97,10 @@ public class HomeController {
 		ContentDto contentDto = contentDao.confirmPwd(num, confirmPwd);
 		
 		if (contentDto == null) {
-//			System.out.println("confirmPwd : " + confirmPwd + " 비번 틀림");
 			model.addAttribute("condition", "삭제");
 			return "/editDelFailPage";
 			
 		} else {
-//			System.out.println("confirmPwd : " + confirmPwd + " 맞음 ");
 			contentDao.deleteDao(String.valueOf(contentDto.getNum()));
 		}
 		
@@ -246,9 +116,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/updatePwd")
-	public String updatePwd(int num, String confirmPwd, Model model) {
+	public String updatePwd(int num, String confirmPwd, Model model, PagingVO vo, CriteriaVO cri) {
 		ContentDto contentDto = contentDao.confirmPwd(num, confirmPwd);
-		model.addAttribute("viewlist", contentDao.viewDao(num));
+		model.addAttribute("viewlist", contentDao.viewDao(cri));
 		
 		if (contentDto == null) {
 			model.addAttribute("condition", "수정");
@@ -262,19 +132,8 @@ public class HomeController {
 	@RequestMapping("/update")
 	public String update(HttpServletRequest request, Model model) {
 		
-//		String num = request.getParameter("num");
-//		String confirmPwd = request.getParameter("confirmPwd");
-		
-		
-		
-//		if (contentDto == null) {
-//			model.addAttribute("condition", "수정");
-//			return "editDelFailPage";
-//		} else {
 		contentDao.updateDao(request.getParameter("subject"), request.getParameter("content"), request.getParameter("num"));
 		model.addAttribute("num", request.getParameter("num"));
-//		}
-		
 		
 		return "redirect:view";
 	}

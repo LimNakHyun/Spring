@@ -10,7 +10,6 @@
 <title>게시글 목록</title>
 
 <link rel="stylesheet" href="bootstrap.css">
-<!-- <link rel="stylesheet" href="C:/PRACTICE/00.TOBY/01.CHAP01/gitworkspace/spring29/src/main/webapp/WEB-INF/views/common.css"> -->
 
 <!-- 합쳐지고 최소화된 최신 CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
@@ -26,55 +25,26 @@
 
 <style>
   body {
-    font: 20px Montserrat, sans-serif;
+    font: 16px Montserrat, sans-serif;
     line-height: 1.8;
-    /* color: #f5f6f7; */
   }
-  p {font-size: 16px;}
-  .margin {margin-bottom: 45px;}
-  .bg-1 { 
-    background-color: #1abc9c; /* Green */
-    color: #ffffff;
-  }
-  .bg-2 { 
-    background-color: #474e5d; /* Dark Blue */
-    color: #ffffff;
-  }
-  .bg-3 { 
-    background-color: #ffffff; /* White */
-    color: #555555;
-  }
-  .bg-4 { 
-    background-color: #2f2f2f; /* Black Gray */
-    color: #fff;
-  }
-  .container-fluid {
-    padding-top: 70px;
-    padding-bottom: 70px;
-  }
-  .navbar {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border: 0;
-    border-radius: 0;
-    margin-bottom: 0;
-    font-size: 12px;
-    letter-spacing: 5px;
-  }
-  .navbar-nav  li a:hover {
-    color: #1abc9c !important;
-  }
-  
 </style>
 
 </head>
 <body>
 
-<a href="/list">
-	<span style="margin-left: auto; margin-right: auto;" class="glyphicon glyphicon-home btn-lg"></span>
-</a>
-
-<h3 align="center">로컬 게시판</h3>
+<table style="witdh: 100%;">
+<tr>
+	<td text-align="left">
+		<a href="/list">
+			<span style="width: 300; height: 300;" class="glyphicon glyphicon-home btn-lg"></span>
+		</a>
+	</td>
+	<td text-align="center">
+		<h3>로컬 게시판</h3>
+	</td>
+</tr>
+</table>
 
 <form action="writeForm" method="post">
 	<section align="right">
@@ -90,7 +60,6 @@
 <br>
 
 <table class="table table-bordered table-striped">
-	
 	<tr align="center" class="info">
 		<td class="col-sm-1">번호</td>
 		<td class="col-sm-2">작성자</td>
@@ -98,15 +67,16 @@
 		<td class="col-sm-2">작성일</td>
 		<td class="col-sm-1">조회수</td>
 	</tr>
-	
 	<c:forEach items="${list}" var="dto" varStatus="status">
-	<tr>
-		<td align="center">${dto.numbering}</td>
-		<td align="center">${dto.usrname}</td>
-		<td><a href="view?num=${dto.num}">${dto.subject}</a></td>
-		<td align="center"><fmt:formatDate pattern="YYYY-MM-dd" value="${dto.date}"/></td>
-		<td align="center">${dto.cnt}
-	<tr>
+		<tr>
+			<td align="center">${dto.numbering}</td>
+			<td align="center">${dto.usrname}</td>
+			<td>
+				<a href="view?num=${dto.num}&numbering=${dto.numbering}&nowPage=${paging.nowPage}&cntPerPage=${paging.cntPerPage}&searchType=${paging.searchType}&search=${paging.search}">${dto.subject}</a>
+			</td>
+			<td align="center"><fmt:formatDate pattern="YYYY-MM-dd" value="${dto.date}"/></td>
+			<td align="center">${dto.cnt}
+		<tr>
 	</c:forEach>
 </table>
 
@@ -116,7 +86,7 @@
 	<table style="margin-left: auto; margin-right: auto;" class="search-wrap">
 	<tr>
 		<td>
-			<select style="width:100px;height:30px;white-space: nowrap;" class="form-control search-select" name="searchType">
+			<select style="width: 100px; height: 30px; white-space: nowrap; font-size: 12px;" class="form-control search-select" name="searchType">
 				<option value="subject" ${paging.searchType eq 'subject' ? 'selected' : ''}>제목</option>
 				<option value="content" ${paging.searchType eq 'content' ? 'selected' : ''}>내용</option>
 				<option value="usrname" ${paging.searchType eq 'usrname' ? 'selected' : ''}>작성자</option>
