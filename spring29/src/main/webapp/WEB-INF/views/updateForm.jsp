@@ -32,7 +32,7 @@ textarea {
 
 <h3>게시글 수정하기</h3>
 
-<form action="update">
+<form action="update" method="post">
 	<table class="table table-bordered">	
 		<tr>
 			<td>글 번호</td>
@@ -50,18 +50,29 @@ textarea {
 			<td>내용</td>
 			<td><textarea id="content" cols="40" rows="15" name="content">${viewlist.content}</textarea></td>
 		</tr>
-		
 	</table>
 	
-	&nbsp;&nbsp;<button type="button" onclick="location.href='javascript:history.go(-1)'">이전</button>
-	&nbsp;&nbsp;<a href="list">목록보기</a>
-	&nbsp;&nbsp;<input type="reset" value="리셋">
-	&nbsp;&nbsp;<input type="submit" value="수정하기">
+	&nbsp;&nbsp;<button>수정하기</button>
 	
+	<input type="hidden" name="num" value="${cri.num}"/>
+	<input type="hidden" name="nowPage" value="${cri.nowPage}">
+	<input type="hidden" name="cntPerPage" value="${cri.cntPerPage}">
+	<input type="hidden" name="searchType" value="${cri.searchType}">
+	<input type="hidden" name="search" value="${cri.search}">
+	&nbsp;&nbsp;<input type="reset" value="리셋"><br>
+	&nbsp;&nbsp;<button type="button" onclick="location.href='javascript:history.go(-1)'">이전</button>
 </form>
-
-<!-- <iframe name="updform" width="40%" height="300"></iframe> -->
-
-
+	
+	<form action="list" method="post">
+		&nbsp;&nbsp;<button>목록보기</button>
+		<input type="hidden" name="num" value="${cri.num}"/>
+		<input type="hidden" name="nowPage" value="${cri.nowPage}">
+		<input type="hidden" name="cntPerPage" value="${cri.cntPerPage}">
+		<input type="hidden" name="searchType" value="${cri.searchType}">
+		<input type="hidden" name="search" value="${cri.search}">
+	</form>
+	
+	
+	
 </body>
 </html>

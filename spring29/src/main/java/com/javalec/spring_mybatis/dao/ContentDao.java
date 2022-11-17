@@ -30,20 +30,20 @@ public class ContentDao {
 		return idao.viewDao(cri);
 	}
 	
-	public void deleteDao(String num) { 
-		idao.deleteDao(num);
+	public void deleteDao(CriteriaVO cri) { 
+		idao.deleteDao(cri);
 	}
 
-	public void cntDao(CriteriaVO cri) { 
+	public void cntDao(CriteriaVO cri) {
 		idao.cntDao(cri);
 	}
 
-	public void updateDao(String subject, String content, String num) {
-		idao.updateDao(subject, content, num);
+	public void updateDao(ContentDto contentDto) {
+		idao.updateDao(contentDto);
 	}
 
-	public ContentDto confirmPwd(int num, String confirmPwd) {
-		return idao.confirmPwd(num, confirmPwd);
+	public int confirmPwd(CriteriaVO cri) {
+		return idao.confirmPwd(cri);
 	}
 
 }

@@ -28,12 +28,12 @@ public interface IDao {
 	public void cntDao(CriteriaVO cri);
 	
 	//게시글 삭제
-	public void deleteDao(String num);
+	public void deleteDao(CriteriaVO cri);
 	
 	//게시글 수정
-	public void updateDao(String subject, String content, String num);
+	public void updateDao(ContentDto contentDto);
 	
 	//비밀번호 확인
-	public ContentDto confirmPwd(int num, String confirmPwd);
+	public int confirmPwd(CriteriaVO cri);
 	
 }

@@ -5,8 +5,7 @@
 
 <mapper namespace="com.javalec.spring_mybatis.dao.IDao">
 	
-	
-	<!-- 받아오는 값이 있었기 때문에 resultType이 존재함 -->
+	<!-- 게시글 목록을 받아오는 쿼리 -->
 	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		<![CDATA[
 		select numbering, num, usrname, pwd, subject, cnt, date
@@ -42,20 +41,20 @@
 		<if test="searchType == null or searchType == '' ">1 = 1</if>
 	</select>
 	
-	<!-- 받아오는 값이 없었기 때문에 resultType이 존재하지 않음 -->
-	<!-- #을 붙이면 들어오는 값을 반환 타입에 맞게 조정해 준다. -->
-	<!-- $를 붙이면 String이 오면 그냥 데이터베이스에 밀어넣는다 -->
+	<!-- 게시글 작성 쿼리 -->
 	<insert id="writeDao" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
 		insert into boardtest3 (num, usrname, pwd, subject, content, cnt, delyn, deldate, date)
 		values (default, #{usrname}, #{pwd}, #{subject}, #{content}, '0', default, default, now())
 	</insert>
 	
-	<!-- 메소드명은 인터페이스에 있는것을 그대로 가져와보자 -->
-	<delete id="deleteDao" parameterType="int">
-		<!-- delete from boardtest2 where num = ${param1} -->
-		update boardtest3 set delyn = 'true', deldate = now() where num = ${param1}
+	<!-- 게시글 삭제 쿼리 -->
+	<delete id="deleteDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
+		update boardtest3 
+		set delyn = 'true', deldate = now() 
+		where num = #{num}
 	</delete>
 
+	<!-- 게시글 상세보기 쿼리 -->
 	<select id="viewDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select *
 			from (
@@ -75,16 +74,30 @@
 		where num = #{num}
 	</select>
 	
+	<!-- 게시글 조회수 쿼리 -->
 	<update id="cntDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
-		update boardtest3 set cnt = cnt + 1 where num = #{num}
+		update boardtest3 
+		set cnt = cnt + 1 
+		where num = #{num}
 	</update>
 	
-	<update id="updateDao" parameterType="int">
-		update boardtest3 set subject = #{param1}, content = #{param2} where num = ${param3}
+	<!-- 게시글 수정 쿼리 -->
+	<update id="updateDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
+		update boardtest3 
+		set subject = #{subject}, content = #{content} 
+		where num = #{num}
 	</update>
 
-	<select id="confirmPwd" resultType="ContentDto">
-		select * from boardtest3 where num = #{param1} and pwd = #{param2}
+	<!-- 수정 및 삭제시 비밀번호 체크 쿼리 -->
+	<select id="confirmPwd" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="int">
+		SELECT CASE WHEN EXISTS (
+		    SELECT *
+		    FROM boardtest3
+		    WHERE pwd = #{confirmPwd}
+		    and num = #{num}
+		)
+		THEN CAST(1 AS BIT)
+		ELSE CAST(0 AS BIT) end;
 	</select>
 
 </mapper>

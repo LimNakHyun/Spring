@@ -30,27 +30,31 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String list(Model model, PagingVO vo) {
+	public String list(HttpServletRequest request, Model model, PagingVO vo) {
+		
 		CriteriaVO cri = new CriteriaVO();
 		int total = contentDao.countBoard(cri);
 		
 		vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		
 		model.addAttribute("paging", vo);
-		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		model.addAttribute("list", list);
 		
 		return "/list";
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.POST)
-	public String search(Model model, PagingVO vo, CriteriaVO cri) {
+	public String search(Model model, CriteriaVO cri) {
+		
 		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		
 		vo = new PagingVO(cri, total);
 		
 		model.addAttribute("paging", vo);
-		model.addAttribute("list", contentDao.pagingListDao(cri));
+		model.addAttribute("list", list);
 		
 		return "/list";
 	}
@@ -82,60 +86,77 @@ public class HomeController {
 		return "/view";
 	}
 	
-	@RequestMapping("/deleteForm")
-	public String deleteForm(HttpServletRequest request, int num, Model model) {
+	@RequestMapping(value = "/deleteForm", method = RequestMethod.POST)
+	public String deleteForm(Model model, CriteriaVO cri) {
 		
-		model.addAttribute("num", num);
-		model.addAttribute("pwd", request.getParameter("pwd"));
+		model.addAttribute("cri", cri);
 
 		return "/deleteForm";
 	}
 
-	@RequestMapping("/delete")
-	public String delete(String confirmPwd, int num, Model model) {
+	@RequestMapping(value = "/delete", method = RequestMethod.POST)
+	public String delete(Model model, CriteriaVO cri) {
 		
-		ContentDto contentDto = contentDao.confirmPwd(num, confirmPwd);
+		int contentDto = contentDao.confirmPwd(cri);
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		
-		if (contentDto == null) {
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", list);
+		
+		if (contentDto == 0) {
 			model.addAttribute("condition", "삭제");
 			return "/editDelFailPage";
-			
 		} else {
-			contentDao.deleteDao(String.valueOf(contentDto.getNum()));
+			contentDao.deleteDao(cri);
 		}
 		
-		
-		return "redirect:list";
+		return "/list";
 	}
 	
-	@RequestMapping("/updateForm")
-	public String updateForm(int num, Model model) {
-		System.out.println("글번호 : " + num);
-		model.addAttribute("num", num);
+	@RequestMapping(value = "/updateForm", method = RequestMethod.POST)
+	public String updateForm(Model model, CriteriaVO cri) {
+		
+		model.addAttribute("cri", cri);
+		
 		return "/updatepwd";
 	}
 	
-	@RequestMapping("/updatePwd")
-	public String updatePwd(int num, String confirmPwd, Model model, PagingVO vo, CriteriaVO cri) {
-		ContentDto contentDto = contentDao.confirmPwd(num, confirmPwd);
-		model.addAttribute("viewlist", contentDao.viewDao(cri));
+	@RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
+	public String updatePwd(Model model, CriteriaVO cri) {
 		
-		if (contentDto == null) {
+		int contentDto = contentDao.confirmPwd(cri);
+		ContentDto viewlist = contentDao.viewDao(cri);
+		
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		
+		model.addAttribute("paging", vo);
+		
+		if (contentDto == 0) {
 			model.addAttribute("condition", "수정");
 			return "editDelFailPage";
 		} else {
+			model.addAttribute("cri", cri);
+			model.addAttribute("viewlist", viewlist);
 			return "/updateForm";
 		}
 		
 	}
 	
-	@RequestMapping("/update")
-	public String update(HttpServletRequest request, Model model) {
+	@RequestMapping(value = "/update", method = RequestMethod.POST)
+	public String update(Model model, ContentDto contentDto, CriteriaVO cri) {
 		
-		contentDao.updateDao(request.getParameter("subject"), request.getParameter("content"), request.getParameter("num"));
-		model.addAttribute("num", request.getParameter("num"));
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		
-		return "redirect:view";
+		contentDao.updateDao(contentDto);
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", list);
+		
+		return "/list";
 	}
 	
 }

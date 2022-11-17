@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CriteriaVO {
 	private int num;			//글번호
+	private String confirmPwd;		//입력된 비밀번호
 
 	private int nowPage;		//현재 페이지
 	private int cntPerPage;		//페이지당 글 개수
@@ -59,6 +60,14 @@ public class CriteriaVO {
 
 	public void setSearchType(String searchType) {
 		this.searchType = searchType;
+	}
+	
+	public String getConfirmPwd() {
+		return confirmPwd;
+	}
+
+	public void setConfirmPwd(String confirmPwd) {
+		this.confirmPwd = confirmPwd;
 	}
 	
 }

@@ -48,7 +48,7 @@
 
 <form action="writeForm" method="post">
 	<section align="right">
-		<button onclick="location.href='writeForm'" class="btn btn-primary search-btn">글 작성</button>&nbsp;&nbsp;&nbsp;
+		<button class="btn btn-primary search-btn">글 작성</button>&nbsp;&nbsp;&nbsp;
 	</section>
 	
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
@@ -86,7 +86,7 @@
 	<table style="margin-left: auto; margin-right: auto;" class="search-wrap">
 	<tr>
 		<td>
-			<select style="width: 100px; height: 30px; white-space: nowrap; font-size: 12px;" class="form-control search-select" name="searchType">
+			<select style="width: 104px; height: 30px; white-space: nowrap; font-size: 12px;" class="form-control search-select" name="searchType">
 				<option value="subject" ${paging.searchType eq 'subject' ? 'selected' : ''}>제목</option>
 				<option value="content" ${paging.searchType eq 'content' ? 'selected' : ''}>내용</option>
 				<option value="usrname" ${paging.searchType eq 'usrname' ? 'selected' : ''}>작성자</option>

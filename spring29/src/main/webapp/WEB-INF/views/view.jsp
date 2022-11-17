@@ -38,7 +38,6 @@
 <body>
 
 <h3>게시글 상세보기</h3>
-<%-- <p> 검색어 : ${search} </p> --%>
 <table class="table table-bordered">
 
 	<tr>
@@ -76,17 +75,17 @@
 	<input type="hidden" name="searchType" value="${paging.searchType}">
 	<input type="hidden" name="search" value="${paging.search}">
 </form>
-<form action="" method="post">
+<form action="updateForm" method="post">
 	&nbsp;&nbsp;<button>글 수정</button>
-	
+	<input type="hidden" name="num" value="${viewlist.num}">
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
 	<input type="hidden" name="searchType" value="${paging.searchType}">
 	<input type="hidden" name="search" value="${paging.search}">
 </form>
-<form action="" method="post">
+<form action="deleteForm" method="post">
 	&nbsp;&nbsp;<button>글 삭제</button>
-	
+	<input type="hidden" name="num" value="${viewlist.num}">
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
 	<input type="hidden" name="searchType" value="${paging.searchType}">
