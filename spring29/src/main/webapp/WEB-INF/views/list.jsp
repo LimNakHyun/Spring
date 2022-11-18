@@ -9,72 +9,57 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>게시글 목록</title>
 
-<link rel="stylesheet" href="bootstrap.css">
+<!-- <link rel="stylesheet" href="bootstrap.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
-  body {
-    font: 16px Montserrat, sans-serif;
-    line-height: 1.8;
-  }
-  
-  .navbar {
-    padding-top: 15px;
-    padding-bottom: 15px;
-    border: 0;
-    border-radius: 0;
-    margin-bottom: 0;
-    font-size: 12px;
-    letter-spacing: 5px;
-  }
-  
-  .navbar-nav  li a:hover {
-    color: #1abc9c !important;
-  }
+form {
+	display: inline;
+}
+.container-borhead {
+	display: flex;
+	margin: 20px 0px 20px 20px;
+}
 </style>
 
 </head>
 <body>
 
-<!-- Navbar -->
-<!-- <nav class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
-      	<a href="/list" class="navbar-brand">
-			<span style="width: 300; height: 300;" class="icon-bar glyphicon glyphicon-home btn-lg"></span>
-		</a>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>                        
-      </button>
-      <a class="navbar-brand" href="#">Me</a>
-    </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">WHO</a></li>
-        <li><a href="#">WHAT</a></li>
-        <li><a href="#">WHERE</a></li>
-      </ul>
-    </div>
-  </div>
-</nav> -->
-
-<table style="witdh: 100%;">
-<tr>
-	<td text-align="left">
-		<a href="/list">
-			<span style="width: 300; height: 300;" class="glyphicon glyphicon-home btn-lg"></span>
-		</a>
-	</td>
-	<td text-align="center">
-		<h3>로컬 게시판</h3>
-	</td>
-</tr>
-</table>
+<div class="container-borhead">
+	<div>
+		<button class="btn btn-default" type="button" onclick="location.href='/'">홈</button>
+	</div>&nbsp;&nbsp;
+	<div>
+		<button class="btn btn-default" type="button" onclick="location.href='/list'">게시판 목록</button>
+	</div>&nbsp;&nbsp;
+	<div>
+		<c:choose>
+			<c:when test="${loginCondition}">
+				<div>
+					<form action="logout">
+						<button class="btn btn-default">로그아웃</button>
+					</form>
+				</div>&nbsp;&nbsp;
+				<div>
+					<label><strong>[${id}]</strong> 로그인됨</label>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<button class="btn btn-default" type="button" onclick="location.href='/'">로그인</button>
+			</c:otherwise>
+		</c:choose>
+	</div>
+</div>
 
 <form action="writeForm" method="post">
 	<section align="right">

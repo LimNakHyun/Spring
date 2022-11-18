@@ -120,6 +120,27 @@
 		select coalesce(max(num), 0) 
 		from board;
 	</select>
+	
+	<!-- 아이디 중복체크 쿼리 -->
+	<select id="confirmId" resultType="int" parameterType="com.javalec.spring_mybatis.dto.UserDto">
+		select count(*) 
+		from users 
+		where id = #{id};
+	</select>
+	
+	<!-- 회원가입한 유저 정보를 테이블에 추가하는 쿼리 -->
+	<insert id="registUser" parameterType="com.javalec.spring_mybatis.dto.UserDto">
+		insert into users (id, name, password)
+		values (#{id}, #{name}, #{pwd})
+	</insert>
+	
+	<!-- 로그인 할 때, 아이디가 맞을 경우 비밀번호가 맞는지 체크하는 쿼리 -->
+	<select id="loginPwd" resultType="int" parameterType="com.javalec.spring_mybatis.dto.UserDto">
+		select count(*) 
+		from users 
+		where id = #{id}
+		and password = #{pwd};
+	</select>
 
 </mapper>
 

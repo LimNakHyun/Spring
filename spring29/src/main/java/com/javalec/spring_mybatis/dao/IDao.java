@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
 import com.javalec.spring_mybatis.dto.ContentDto;
+import com.javalec.spring_mybatis.dto.UserDto;
 import com.javalec.spring_mybatis.vo.CriteriaVO;
 
 @Mapper
@@ -44,5 +45,14 @@ public interface IDao {
 	
 	//가장 큰 PK를 찾기
 	public int biggestPK();
+	
+	//회원가입 시 아이디 중복체크
+	public int confirmId(UserDto userDto);
+	
+	//회원 테이블에 가입한 회원 추가
+	public void registUser(UserDto userDto);
+	
+	//로그인 할 때, 아이디가 맞을 경우 비밀번호가 맞는지 체크
+	public int loginPwd(UserDto userDto);
 	
 }

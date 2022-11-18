@@ -1,11 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="false" %>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>비밀번호 체크</title>
+  <!-- Theme Made By www.w3schools.com - No Copyright -->
+<title>회원가입</title>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
@@ -13,12 +14,24 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+.bg-1 { 
+    background-color: #A2E9FF;
+    color: #000000;
+  }
 form {
 	display: inline;
 }
 .container-borhead {
 	display: flex;
 	margin: 20px 0px 20px 20px;
+}
+table {
+	margin-left:auto; 
+    margin-right:auto;
 }
 </style>
 
@@ -49,18 +62,30 @@ form {
 		</c:choose>
 	</div>
 </div>
-</head>
-<body>
-	<h2>비밀번호가 틀립니다. ${condition}에 실패했습니다.</h2>
+
+<!-- First Container -->
+<div class="container-fluid bg-1 text-center">
+	<h3 class="margin">회원가입</h3>
 	
-	&nbsp;&nbsp;<input type="button" value="이전으로" onClick="javascript:history.go(-1)"/>
-	
-	<form action="list" method="post">
-		&nbsp;&nbsp;<button>글 목록</button>
-		<input type="hidden" name="nowPage" value="${paging.nowPage}">
-		<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
-		<input type="hidden" name="searchType" value="${paging.searchType}">
-		<input type="hidden" name="search" value="${paging.search}">
+	<form action="regist" method="post">
+		<table>
+			<tr>
+				<td><label>ID : </label></td>
+				<td><input type="text" name="id" required="required"/></td>
+			</tr>
+			<tr>
+				<td><label>PW : </label></td>
+				<td><input type="password" name="pwd" required="required"/></td>
+			</tr>
+			<tr>
+				<td><label>이름 : </label></td>
+				<td><input type="text" name="name" required="required"/></td>
+			</tr>
+		</table> 
+		<br>
+		<button>가입하기</button>
 	</form>
+</div>
+
 </body>
 </html>

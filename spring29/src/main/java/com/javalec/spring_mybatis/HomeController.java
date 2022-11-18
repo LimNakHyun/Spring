@@ -3,6 +3,7 @@ package com.javalec.spring_mybatis;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.javalec.spring_mybatis.dao.ContentDao;
 import com.javalec.spring_mybatis.dto.ContentDto;
+import com.javalec.spring_mybatis.dto.UserDto;
 import com.javalec.spring_mybatis.vo.CriteriaVO;
 import com.javalec.spring_mybatis.vo.PagingVO;
 
@@ -22,10 +24,10 @@ public class HomeController {
 	//injection과 resource Autowired의 차이점을 알아야 한다.
 	@Autowired
 	private ContentDao contentDao;
-
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Model model) {
-		
+	public String home(HttpServletRequest request, Model model) {
+
 		return "/home";
 	}
 	
@@ -199,6 +201,59 @@ public class HomeController {
 		model.addAttribute("list", list);
 		
 		return "/list";
+	}
+	
+	@RequestMapping(value = "registForm", method = RequestMethod.GET)
+	public String registForm() {
+		
+		return "/registForm";
+	}
+	
+	@RequestMapping(value = "regist", method = RequestMethod.POST)
+	public String regist(Model model, UserDto userDto) {
+		
+		int confirmId = contentDao.confirmId(userDto);
+		if(confirmId == 1) {
+			model.addAttribute("condition", "중복된 아이디입니다. 회원가입에 실패하였습니다.");
+		} else {
+			model.addAttribute("condition", "환영합니다! " + userDto.getName() + "님! 회원가입에 성공하였습니다!");
+			contentDao.registUser(userDto);
+		}
+		
+		return "/registCondition";
+	}
+	
+	@RequestMapping(value = "login", method = RequestMethod.POST)
+	public String login(HttpSession session, Model model, UserDto userDto) {
+		
+		int confirmId = contentDao.confirmId(userDto);
+		boolean loginCondition = false;
+		
+		if(confirmId == 0) {
+			model.addAttribute("condition", "존재하지 않는 아이디입니다.");
+		} else {
+			int confirmPwd = contentDao.loginPwd(userDto);
+			if(confirmPwd == 0) {
+				model.addAttribute("condition", "비밀번호가 틀렸습니다.");
+			} else {
+				model.addAttribute("condition", "로그인에 성공하였습니다!");
+				loginCondition = true;
+			}
+		}
+		
+		session.setAttribute("id", userDto.getId());
+		session.setAttribute("pwd", userDto.getPwd());
+		session.setAttribute("loginCondition", loginCondition);
+		
+		return "/registCondition";
+	}
+	
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String logout(HttpServletRequest request) {
+		
+		request.getSession().invalidate();
+		
+		return "/home";
 	}
 	
 }

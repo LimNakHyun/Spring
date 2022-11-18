@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.javalec.spring_mybatis.dto.ContentDto;
+import com.javalec.spring_mybatis.dto.UserDto;
 import com.javalec.spring_mybatis.vo.CriteriaVO;
 
 @Service("contentDao")
@@ -56,6 +57,18 @@ public class ContentDao {
 	
 	public int biggestPK() {
 		return idao.biggestPK();
+	}
+	
+	public int confirmId(UserDto userDto) {
+		return idao.confirmId(userDto);
+	}
+	
+	public void registUser(UserDto userDto) {
+		idao.registUser(userDto);
+	}
+	
+	public int loginPwd(UserDto userDto) {
+		return idao.loginPwd(userDto);
 	}
 
 }
