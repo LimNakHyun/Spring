@@ -92,11 +92,24 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/deleteForm", method = RequestMethod.POST)
-	public String deleteForm(Model model, CriteriaVO cri) {
+	public String deleteForm(HttpSession session, Model model, CriteriaVO cri) {
 		
 		model.addAttribute("cri", cri);
+		
+		if(session.getAttribute("loginCondition") == null) {
+			return "/deleteForm";
+		}
+		
+		contentDao.deleteDao(cri);
+		
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
+		
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", list);
 
-		return "/deleteForm";
+		return "/list";
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.POST)
@@ -122,11 +135,22 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/updateForm", method = RequestMethod.POST)
-	public String updateForm(Model model, CriteriaVO cri) {
+	public String updateForm(HttpSession session, Model model, CriteriaVO cri) {
 		
 		model.addAttribute("cri", cri);
 		
-		return "/updatepwd";
+		if(session.getAttribute("loginCondition") == null) {
+			return "/updatepwd";
+		}
+		
+		ContentDto viewlist = contentDao.viewDao(cri);
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		
+		model.addAttribute("paging", vo);
+		model.addAttribute("viewlist", viewlist);
+		
+		return "/updateForm";
 	}
 	
 	@RequestMapping(value = "/updatePwd", method = RequestMethod.POST)
