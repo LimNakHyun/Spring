@@ -45,5 +45,17 @@ public class ContentDao {
 	public int confirmPwd(CriteriaVO cri) {
 		return idao.confirmPwd(cri);
 	}
+	
+	public void replyDao(ContentDto contentDto) {
+		idao.replyDao(contentDto);
+	}
+	
+	public void place(ContentDto contentDto) {
+		idao.place(contentDto);
+	}
+	
+	public int biggestPK() {
+		return idao.biggestPK();
+	}
 
 }

@@ -13,7 +13,6 @@
 	
 	<form action="list" method="post">
 		&nbsp;&nbsp;<button>글 목록</button>
-		
 		<input type="hidden" name="nowPage" value="${paging.nowPage}">
 		<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
 		<input type="hidden" name="searchType" value="${paging.searchType}">

@@ -36,4 +36,13 @@ public interface IDao {
 	//비밀번호 확인
 	public int confirmPwd(CriteriaVO cri);
 	
+	//답글달기
+	public void replyDao(ContentDto contentDto);
+	
+	//답글 끼워넣을 자리 만들기
+	public void place(ContentDto contentDto);
+	
+	//가장 큰 PK를 찾기
+	public int biggestPK();
+	
 }

@@ -70,6 +70,9 @@ public class HomeController {
 	@RequestMapping("/write")
 	public String write(Model model, ContentDto contentDto) {
 
+		int refgroup = contentDao.biggestPK() + 1;
+		contentDto.setRefgroup(refgroup);
+		contentDto.setNum(refgroup);
 		contentDao.writeDao(contentDto);
 		
 		return "redirect:list";
@@ -98,12 +101,6 @@ public class HomeController {
 	public String delete(Model model, CriteriaVO cri) {
 		
 		int contentDto = contentDao.confirmPwd(cri);
-		int total = contentDao.countBoard(cri);
-		PagingVO vo = new PagingVO(cri, total);
-		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
-		
-		model.addAttribute("paging", vo);
-		model.addAttribute("list", list);
 		
 		if (contentDto == 0) {
 			model.addAttribute("condition", "삭제");
@@ -111,6 +108,13 @@ public class HomeController {
 		} else {
 			contentDao.deleteDao(cri);
 		}
+		
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
+		
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", list);
 		
 		return "/list";
 	}
@@ -153,6 +157,44 @@ public class HomeController {
 		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		
 		contentDao.updateDao(contentDto);
+		model.addAttribute("paging", vo);
+		model.addAttribute("list", list);
+		
+		return "/list";
+	}
+	
+	@RequestMapping(value = "/replyForm", method = RequestMethod.POST)
+	public String replyForm(Model model, CriteriaVO cri) {
+		
+		contentDao.cntDao(cri);
+		ContentDto view = contentDao.viewDao(cri);
+		contentDao.place(view);
+		
+		int refgroup = view.getRefgroup();
+		int refdepth = view.getRefdepth() + 1;
+		int reforder = view.getReforder() + 1;
+		ContentDto temp = new ContentDto();
+		
+		temp.setNum(contentDao.biggestPK() + 1);
+		temp.setRefgroup(refgroup);
+		temp.setRefdepth(refdepth);
+		temp.setReforder(reforder);
+		
+		model.addAttribute("temp", temp);
+		model.addAttribute("paging", cri);
+		
+		return "/replyForm";
+	}
+	
+	@RequestMapping(value = "/reply", method = RequestMethod.POST)
+	public String reply(Model model, ContentDto contentDto, CriteriaVO cri) {
+		
+		contentDao.replyDao(contentDto);
+		
+		int total = contentDao.countBoard(cri);
+		PagingVO vo = new PagingVO(cri, total);
+		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
+		
 		model.addAttribute("paging", vo);
 		model.addAttribute("list", list);
 		

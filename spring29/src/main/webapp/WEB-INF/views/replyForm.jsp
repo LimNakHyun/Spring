@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>게시글 작성</title>
+<title>답글 작성</title>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
@@ -26,10 +26,11 @@
 </head>
 <body>
 
-<h3>게시글 작성하기</h3>
+<h3>답글 작성하기</h3>
 
-<form action="write" method="post">
+<form action="reply" method="post">
 	<table class="table table-bordered">
+	
 		<tr>
 			<td><label> 작성자 </label></td>
 			<td><input type="text" name="usrname" required="required"/></td>
@@ -47,16 +48,24 @@
 			<td><textarea type="text" name="content" cols="40" rows="15" required="required"></textarea></td>
 		</tr>
 	</table>
-	&nbsp;&nbsp;<input type="submit" value="입력">
+	<input type="hidden" name="num" value="${temp.num}">
+	<input type="hidden" name="refgroup" value="${temp.refgroup}">
+	<input type="hidden" name="refdepth" value="${temp.refdepth}">
+	<input type="hidden" name="reforder" value="${temp.reforder}">
+	&nbsp;&nbsp;<button>답글입력</button>
+	
 </form>
 
 <form action="list" method="post">
 	&nbsp;&nbsp;<button>목록보기</button>
+
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
 	<input type="hidden" name="searchType" value="${paging.searchType}">
 	<input type="hidden" name="search" value="${paging.search}">
 </form>
+
+<input type="button" value="이전으로" onClick="javascript:history.go(-1)"/>
 
 </body>
 </html>

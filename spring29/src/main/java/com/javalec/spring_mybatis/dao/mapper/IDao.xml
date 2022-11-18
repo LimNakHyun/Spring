@@ -8,12 +8,12 @@
 	<!-- 게시글 목록을 받아오는 쿼리 -->
 	<select id="pagingListDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		<![CDATA[
-		select numbering, num, usrname, pwd, subject, cnt, date
+		select *
 			from (
 				select (row_number() over()) as numbering, t.*
 					from (
 									select *
-									from boardtest3
+									from board
 									where delyn = false and
 		]]>
 									<if test="searchType == 'subject'">subject ilike '%' || #{search} || '%'</if>
@@ -22,7 +22,7 @@
 									<if test="searchType == 'subCon'">subject ilike '%' || #{search} || '%' or content ilike '%' || #{search} || '%'</if>
 									<if test="searchType == null or searchType == '' ">1 = 1</if>
 		<![CDATA[
-									order by num desc
+									order by refgroup desc, reforder
 									) t
 					) s
 		where numbering > (#{nowPage} - 1) * #{cntPerPage} and numbering <= #{nowPage} * #{cntPerPage}
@@ -32,7 +32,7 @@
 	<!-- 총 게시글 갯수를 출력하는 쿼리 -->
 	<select id="countBoard" resultType="int">
 		select count(*) 
-		from boardtest3
+		from board
 		where delyn = 'false' and
 		<if test="searchType == 'subject'">subject ilike '%' || #{search} || '%'</if>
 		<if test="searchType == 'content'">content ilike '%' || #{search} || '%'</if>
@@ -43,13 +43,13 @@
 	
 	<!-- 게시글 작성 쿼리 -->
 	<insert id="writeDao" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
-		insert into boardtest3 (num, usrname, pwd, subject, content, cnt, delyn, deldate, date)
-		values (default, #{usrname}, #{pwd}, #{subject}, #{content}, '0', default, default, now())
+		insert into board (num, usrname, pwd, subject, content, refgroup, refdepth, reforder, cnt, delyn, deldate, date)
+		values (#{num}, #{usrname}, #{pwd}, #{subject}, #{content}, #{refgroup}, default, default, '0', default, default, now())
 	</insert>
 	
 	<!-- 게시글 삭제 쿼리 -->
 	<delete id="deleteDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
-		update boardtest3 
+		update board 
 		set delyn = 'true', deldate = now() 
 		where num = #{num}
 	</delete>
@@ -61,7 +61,7 @@
 				select (row_number() over()) as numbering, t.*
 					from (
 									select *
-									from boardtest3
+									from board
 									where delyn = false and
 									<if test="searchType == 'subject'">subject ilike '%' || #{search} || '%'</if>
 									<if test="searchType == 'content'">content ilike '%' || #{search} || '%'</if>
@@ -76,14 +76,14 @@
 	
 	<!-- 게시글 조회수 쿼리 -->
 	<update id="cntDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
-		update boardtest3 
+		update board 
 		set cnt = cnt + 1 
 		where num = #{num}
 	</update>
 	
 	<!-- 게시글 수정 쿼리 -->
 	<update id="updateDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO">
-		update boardtest3 
+		update board 
 		set subject = #{subject}, content = #{content} 
 		where num = #{num}
 	</update>
@@ -92,12 +92,33 @@
 	<select id="confirmPwd" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="int">
 		SELECT CASE WHEN EXISTS (
 		    SELECT *
-		    FROM boardtest3
+		    FROM board
 		    WHERE pwd = #{confirmPwd}
 		    and num = #{num}
 		)
 		THEN CAST(1 AS BIT)
 		ELSE CAST(0 AS BIT) end;
+	</select>
+	
+	<!-- 답글 추가 쿼리 -->
+	<insert id="replyDao" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
+		insert into board (num, usrname, pwd, subject, content, refgroup, refdepth, reforder, cnt, delyn, deldate, date)
+		values (#{num}, #{usrname}, #{pwd}, #{subject}, #{content}, #{refgroup}, #{refdepth}, #{reforder}, '0', default, default, now())
+	</insert>
+	
+	<!-- 답글 끼워넣을 자리 만들기 -->
+	<update id="place" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
+		update board set reforder = reforder + 1
+		where refgroup = #{refgroup}
+		<![CDATA[
+		and reforder > #{reforder}
+		]]>
+	</update>
+	
+	<!-- 가장 큰 PK를 찾는 쿼리 -->
+	<select id="biggestPK"  resultType="int">
+		select coalesce(max(num), 0) 
+		from board;
 	</select>
 
 </mapper>
