@@ -39,6 +39,7 @@ form {
 			<c:when test="${loginCondition}">
 				<div>
 					<form action="logout">
+						<input type="hidden" name="whatPage" value="list">
 						<button class="btn btn-default">로그아웃</button>
 					</form>
 				</div>&nbsp;&nbsp;
@@ -57,14 +58,15 @@ form {
 			<label>글 비밀번호 : </label>
 			<input name="confirmPwd" type="password">
 			<br><br>
-			<button>수정하기</button>
+			<button class="btn btn-warning">글 수정</button>
 			<input type="hidden" name="num" value="${cri.num}"/>
 			<input type="hidden" name="nowPage" value="${cri.nowPage}">
 			<input type="hidden" name="cntPerPage" value="${cri.cntPerPage}">
 			<input type="hidden" name="searchType" value="${cri.searchType}">
 			<input type="hidden" name="search" value="${cri.search}">
 		</form>
-		<input type="button" value="이전으로" onClick="javascript:history.go(-1)"/>
+		<!-- <input type="button" value="이전으로" onClick="javascript:history.go(-1)"/> -->
+		&nbsp;<button class="btn btn-info" type="button" onClick="history.go(-1)">이전으로</button>
 	</section>
 </body>
 </html>

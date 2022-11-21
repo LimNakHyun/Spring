@@ -41,10 +41,16 @@
 		<if test="searchType == null or searchType == '' ">1 = 1</if>
 	</select>
 	
-	<!-- 게시글 작성 쿼리 -->
+	<!-- 비로그인 상태 게시글 작성 쿼리 -->
 	<insert id="writeDao" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
-		insert into board (num, usrname, pwd, subject, content, refgroup, refdepth, reforder, cnt, delyn, deldate, date)
-		values (#{num}, #{usrname}, #{pwd}, #{subject}, #{content}, #{refgroup}, default, default, '0', default, default, now())
+		insert into board (num, usrname, pwd, subject, content, refgroup, refdepth, reforder, cnt, delyn, deldate, date, login)
+		values (#{num}, #{usrname}, #{pwd}, #{subject}, #{content}, #{refgroup}, default, default, '0', default, default, now(), default)
+	</insert>
+	
+	<!-- 로그인 상태 게시글 작성 -->
+	<insert id="writeDaoLogin" parameterType="com.javalec.spring_mybatis.dto.ContentDto">
+		insert into board (num, usrname, pwd, subject, content, refgroup, refdepth, reforder, cnt, delyn, deldate, date, login)
+		values (#{num}, #{usrname}, #{pwd}, #{subject}, #{content}, #{refgroup}, default, default, '0', default, default, now(), true)
 	</insert>
 	
 	<!-- 게시글 삭제 쿼리 -->
@@ -55,7 +61,7 @@
 	</delete>
 
 	<!-- 게시글 상세보기 쿼리 -->
-	<select id="viewDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+	<!-- <select id="viewDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
 		select *
 			from (
 				select (row_number() over()) as numbering, t.*
@@ -72,6 +78,19 @@
 									) t
 					) s
 		where num = #{num}
+	</select> -->
+	<select id="viewDao" parameterType="com.javalec.spring_mybatis.vo.CriteriaVO" resultType="com.javalec.spring_mybatis.dto.ContentDto">
+		select *
+			from (
+				select (row_number() over()) as numbering, t.*
+					from (
+									select *
+									from board
+									where delyn = false
+									order by refgroup desc, reforder
+									) t
+					) s
+		where num = #{num} 
 	</select>
 	
 	<!-- 게시글 조회수 쿼리 -->

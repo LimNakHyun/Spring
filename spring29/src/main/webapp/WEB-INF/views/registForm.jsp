@@ -45,22 +45,6 @@ table {
 	<div>
 		<button class="btn btn-default" type="button" onclick="location.href='/list'">게시판 목록</button>
 	</div>&nbsp;&nbsp;
-	<div>
-		<c:choose>
-			<c:when test="${loginCondition}">
-				<div>
-					<form action="logout">
-						<button class="btn btn-default">로그아웃</button>
-					</form>
-				</div>&nbsp;&nbsp;
-				<div>
-					<label><strong>[${id}]</strong> 로그인됨</label>
-				</div>
-			</c:when>
-			<c:otherwise>
-			</c:otherwise>
-		</c:choose>
-	</div>
 </div>
 
 <!-- First Container -->
@@ -83,7 +67,7 @@ table {
 			</tr>
 		</table> 
 		<br>
-		<button>가입하기</button>
+		<button class="btn btn-default">가입하기</button>
 	</form>
 </div>
 

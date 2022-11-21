@@ -12,6 +12,8 @@ public class CriteriaVO {
 	
 	private String search;		//검색어
 	private String searchType;	//검색타입
+	
+	private String whatPage;	//로그아웃 시 이동하는 페이지 설정
 
 	public CriteriaVO() {
 		this(1, 10);
@@ -68,6 +70,14 @@ public class CriteriaVO {
 
 	public void setConfirmPwd(String confirmPwd) {
 		this.confirmPwd = confirmPwd;
+	}
+
+	public String getWhatPage() {
+		return whatPage;
+	}
+
+	public void setWhatPage(String whatPage) {
+		this.whatPage = whatPage;
 	}
 	
 }

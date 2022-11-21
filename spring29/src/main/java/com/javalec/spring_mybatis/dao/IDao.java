@@ -19,8 +19,11 @@ public interface IDao {
 	//게시글 총 개수
 	public int countBoard(CriteriaVO cri);
 	
-	//게시글 작성
+	//비로그인 상태 게시글 작성
 	public void writeDao(ContentDto contentDto);
+	
+	//로그인 상태 게시글 작성
+	public void writeDaoLogin(ContentDto contentDto);
 	
 	//게시글 보기
 	public ContentDto viewDao(CriteriaVO cri);

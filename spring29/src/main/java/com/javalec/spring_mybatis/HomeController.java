@@ -70,12 +70,17 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/write")
-	public String write(Model model, ContentDto contentDto) {
+	public String write(HttpSession session, Model model, ContentDto contentDto) {
 
 		int refgroup = contentDao.biggestPK() + 1;
 		contentDto.setRefgroup(refgroup);
 		contentDto.setNum(refgroup);
-		contentDao.writeDao(contentDto);
+		
+		if(session.getAttribute("loginCondition") != null) {
+			contentDao.writeDaoLogin(contentDto);
+		} else {
+			contentDao.writeDao(contentDto);
+		}
 		
 		return "redirect:list";
 	}
@@ -98,6 +103,15 @@ public class HomeController {
 		
 		if(session.getAttribute("loginCondition") == null) {
 			return "/deleteForm";
+		} else if((boolean)session.getAttribute("loginCondition") == true) {
+			ContentDto view = contentDao.viewDao(cri);
+			if(!view.isLogin()) {
+				return "/deleteForm";
+			} else {
+				if(!view.getUsrname().equals(session.getAttribute("id"))) {
+					return "/deleteForm";
+				}
+			}
 		}
 		
 		contentDao.deleteDao(cri);
@@ -139,16 +153,25 @@ public class HomeController {
 		
 		model.addAttribute("cri", cri);
 		
+		ContentDto view = contentDao.viewDao(cri);
+		
 		if(session.getAttribute("loginCondition") == null) {
 			return "/updatepwd";
+		} else if((boolean)session.getAttribute("loginCondition") == true) {
+			if(!view.isLogin()) {
+				return "/updatepwd";
+			} else {
+				if(!view.getUsrname().equals(session.getAttribute("id"))) {
+					return "/updatepwd";
+				}
+			}
 		}
 		
-		ContentDto viewlist = contentDao.viewDao(cri);
 		int total = contentDao.countBoard(cri);
 		PagingVO vo = new PagingVO(cri, total);
 		
 		model.addAttribute("paging", vo);
-		model.addAttribute("viewlist", viewlist);
+		model.addAttribute("viewlist", view);
 		
 		return "/updateForm";
 	}
@@ -178,11 +201,12 @@ public class HomeController {
 	@RequestMapping(value = "/update", method = RequestMethod.POST)
 	public String update(Model model, ContentDto contentDto, CriteriaVO cri) {
 		
+		contentDao.updateDao(contentDto);
+		
 		int total = contentDao.countBoard(cri);
 		PagingVO vo = new PagingVO(cri, total);
 		ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
 		
-		contentDao.updateDao(contentDto);
 		model.addAttribute("paging", vo);
 		model.addAttribute("list", list);
 		
@@ -273,9 +297,22 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String logout(HttpServletRequest request) {
+	public String logout(HttpServletRequest request, Model model, CriteriaVO cri) {
 		
 		request.getSession().invalidate();
+		if (cri.getWhatPage().equals("list")) {
+			
+//			model.addAttribute("cri", cri);
+			
+			int total = contentDao.countBoard(cri);
+			PagingVO vo = new PagingVO(cri, total);
+			ArrayList<ContentDto> list = contentDao.pagingListDao(cri);
+			
+			model.addAttribute("paging", vo);
+			model.addAttribute("list", list);
+			
+			return "list";
+		}
 		
 		return "/home";
 	}

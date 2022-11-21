@@ -42,6 +42,7 @@ form {
 			<c:when test="${loginCondition}">
 				<div>
 					<form action="logout">
+						<input type="hidden" name="whatPage" value="list">
 						<button class="btn btn-default">로그아웃</button>
 					</form>
 				</div>&nbsp;&nbsp;
@@ -76,18 +77,18 @@ form {
 			<td><textarea id="content" cols="40" rows="15" name="content">${viewlist.content}</textarea></td>
 		</tr>
 	</table>
-	&nbsp;&nbsp;<button>수정하기</button>
+	&nbsp;&nbsp;<button class="btn btn-warning">글 수정</button>
 	<input type="hidden" name="num" value="${cri.num}"/>
 	<input type="hidden" name="nowPage" value="${cri.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${cri.cntPerPage}">
 	<input type="hidden" name="searchType" value="${cri.searchType}">
 	<input type="hidden" name="search" value="${cri.search}">
-	&nbsp;&nbsp;<input type="reset" value="리셋">
-	&nbsp;&nbsp;<button type="button" onclick="location.href='javascript:history.go(-1)'">이전</button>
+	&nbsp;&nbsp;<button class="btn btn-default" type="reset">리셋</button>
+	&nbsp;&nbsp;<button class="btn btn-info" type="button" onclick="location.href='javascript:history.go(-1)'">이전</button>
 </form>
 	
 <form action="list" method="post">
-	&nbsp;&nbsp;<button>목록보기</button>
+	&nbsp;&nbsp;<button class="btn btn-success">글 목록</button>
 	<input type="hidden" name="num" value="${cri.num}"/>
 	<input type="hidden" name="nowPage" value="${cri.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${cri.cntPerPage}">

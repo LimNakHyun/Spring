@@ -27,6 +27,10 @@ public class ContentDao {
 		idao.writeDao(contentDto);
 	}
 	
+	public void writeDaoLogin(ContentDto contentDto) {
+		idao.writeDaoLogin(contentDto);
+	}
+	
 	public ContentDto viewDao(CriteriaVO cri) {
 		return idao.viewDao(cri);
 	}

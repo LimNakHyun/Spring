@@ -17,7 +17,8 @@ public class ContentDto {
 	private Timestamp date;
 	private boolean delyn;
 	private Timestamp deldate;
-	
+	private boolean login;
+
 	public int getNum() {
 		return num;
 	}
@@ -120,6 +121,14 @@ public class ContentDto {
 
 	public void setReforder(int ref_order) {
 		this.reforder = ref_order;
+	}
+
+	public boolean isLogin() {
+		return login;
+	}
+
+	public void setLogin(boolean login) {
+		this.login = login;
 	}
 
 }

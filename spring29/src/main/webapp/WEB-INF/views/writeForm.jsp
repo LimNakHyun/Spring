@@ -41,6 +41,7 @@ form {
 			<c:when test="${loginCondition}">
 				<div>
 					<form action="logout">
+						<input type="hidden" name="whatPage" value="list">
 						<button class="btn btn-default">로그아웃</button>
 					</form>
 				</div>&nbsp;&nbsp;
@@ -97,11 +98,11 @@ form {
 	
 	
 	
-	&nbsp;&nbsp;<input type="submit" value="입력">
+	&nbsp;&nbsp;<button class="btn btn-primary search-btn">글 작성</button>
 </form>
 
 <form action="list" method="post">
-	&nbsp;&nbsp;<button>목록보기</button>
+	&nbsp;&nbsp;<button class="btn btn-success">글 목록</button>
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
 	<input type="hidden" name="searchType" value="${paging.searchType}">

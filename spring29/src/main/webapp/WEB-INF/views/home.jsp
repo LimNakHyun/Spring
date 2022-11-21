@@ -138,6 +138,7 @@
 				<div>
 					<form action="logout">
 						<button class="btn btn-default">로그아웃</button>
+						<input type="hidden" name="whatPage" value="home">
 					</form>
 				</div>&nbsp;&nbsp;
 				<div>

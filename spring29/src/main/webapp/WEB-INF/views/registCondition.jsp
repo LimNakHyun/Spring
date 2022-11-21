@@ -37,6 +37,7 @@ form {
 			<c:when test="${loginCondition}">
 				<div>
 					<form action="logout">
+						<input type="hidden" name="whatPage" value="list">
 						<button class="btn btn-default">로그아웃</button>
 					</form>
 				</div>&nbsp;&nbsp;
