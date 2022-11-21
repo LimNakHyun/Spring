@@ -62,12 +62,29 @@ form {
 	
 		<tr>
 			<td><label> 작성자 </label></td>
-			<td><input type="text" name="usrname" required="required"/></td>
+			<td>
+				<c:choose>
+					<c:when test="${loginCondition}">
+						<input type="hidden" name="usrname" value="${id}">
+						${id}
+					</c:when>
+					<c:otherwise>
+						<input type="text" name="usrname" required="required"/>
+					</c:otherwise>
+				</c:choose>
+			</td>
 		</tr>
-		<tr>
-			<td><label> 비밀번호 </label></td>
-			<td><input type="password" name="pwd" required="required"/></td>
-		</tr>
+		<c:choose>
+			<c:when test="${loginCondition}">
+				<input type="hidden" name="pwd" value="${pwd}">
+			</c:when>
+			<c:otherwise>
+				<tr>
+					<td><label> 비밀번호 </label></td>
+					<td><input type="password" name="pwd" required="required"/></td>
+				</tr>
+			</c:otherwise>
+		</c:choose>
 		<tr>
 			<td><label> 제목 </label></td>
 			<td><input type="text" name="subject" required="required"/></td>

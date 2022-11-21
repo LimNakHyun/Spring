@@ -58,14 +58,14 @@ form {
 			<label>글 비밀번호 : </label>
 			<input name="confirmPwd" type="password">
 			<br><br>
-			<button class="btn btn-danger">삭제하기</button>
+			<button class="btn btn-danger">글 삭제</button>
 			<input type="hidden" name="num" value="${cri.num}"/>
 			<input type="hidden" name="nowPage" value="${cri.nowPage}">
 			<input type="hidden" name="cntPerPage" value="${cri.cntPerPage}">
 			<input type="hidden" name="searchType" value="${cri.searchType}">
 			<input type="hidden" name="search" value="${cri.search}">
 		</form>
-		<button class="btn btn-info" type="button" onClick="history.go(-1)">이전으로</button>
+		&nbsp;<button class="btn btn-info" type="button" onClick="history.go(-1)">이전으로</button>
 	</section>
 </body>
 </html>

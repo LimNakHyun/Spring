@@ -86,7 +86,7 @@ form {
 </table>
 <div align="center">
 <form action="list" method="post">
-	&nbsp;&nbsp;<button class="btn btn-success">글 목록</button>
+	<button class="btn btn-success">글 목록</button>
 	
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
@@ -94,7 +94,7 @@ form {
 	<input type="hidden" name="search" value="${paging.search}">
 </form>
 <form action="updateForm" method="post">
-	&nbsp;&nbsp;<button class="btn btn-warning">글 수정</button>
+	&nbsp;<button class="btn btn-warning">글 수정</button>
 	<input type="hidden" name="num" value="${viewlist.num}">
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
@@ -102,7 +102,7 @@ form {
 	<input type="hidden" name="search" value="${paging.search}">
 </form>
 <form action="deleteForm" method="post">
-	&nbsp;&nbsp;<button class="btn btn-danger">글 삭제</button>
+	&nbsp;<button class="btn btn-danger">글 삭제</button>
 	<input type="hidden" name="num" value="${viewlist.num}">
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
@@ -110,7 +110,7 @@ form {
 	<input type="hidden" name="search" value="${paging.search}">
 </form>
 <form action="replyForm" method="post">
-	&nbsp;&nbsp;<button class="btn btn-info">답글달기</button>
+	&nbsp;<button class="btn btn-info">답글달기</button>
 	<input type="hidden" name="num" value="${viewlist.num}">
 	<input type="hidden" name="nowPage" value="${paging.nowPage}">
 	<input type="hidden" name="cntPerPage" value="${paging.cntPerPage}">
